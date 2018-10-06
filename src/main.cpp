@@ -8,29 +8,18 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "io.h"
+#include "model.h"
 
 int main(int argc, char **argv)
 {
+    IO::InitFileName(argc, argv);
 
-	// name of file to process
-	std::string file_name;
-	if (argc > 1) {
-	  file_name = argv[1];
-	  std::cout<<file_name<<"\n";
-	}
-	else {
-		std::cout<<"ERROR: please insert the file to process...\n";
-		return 0;
-    }
+    IO::ReadInputFile();
 
-	// set the current path
+    //Model::CreateMPMmodel();
 
+    //OI::WriteOutputFile();
 
-	// process the file
-
-
-	// write the particle file
-
-	//exit
-  return 0;
+    return 0;
 }
