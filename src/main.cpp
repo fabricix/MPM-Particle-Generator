@@ -12,7 +12,7 @@
 #include "model.h"
 
 int main(int argc, char **argv)
-{
+{	
     IO::InitFileName(argc, argv);
 
     IO::ReadInputFile();

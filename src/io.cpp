@@ -19,20 +19,12 @@ namespace IO {
 	static std::string input_fname;
 	static std::string out_fname;
 	static std::string path_out_fname;
-	static std::string path_input_fname;
 	static std::string path;
 
 	std::ifstream inputfile;
 	std::ofstream outfile;
 
 	//** statics
-
-	static std::string TimeDataGet()
-	{
-   		time_t now = time(0);
-   		char* dt = ctime(&now);
-   		return std::string(dt);
-	}
 
 	static void read_dem2mpm()
 	{
@@ -56,7 +48,7 @@ namespace IO {
 		for( int i = 0; i < nbox; i++ )
 		{
 			Model::DemBox ibox;
-			std::sscanf(auxline.c_str(),"%lf%lf%lf%lf%lf%lf%d", &ibox.pos.x,&ibox.pos.y,&ibox.pos.z,&ibox.zbase,&ibox.dx,&ibox.dy,&ibox.dz,&ibox.matid);
+			std::sscanf(auxline.c_str(),"%lf%lf%lf%lf%lf%lf%lf%d", &ibox.pos.x,&ibox.pos.y,&ibox.pos.z,&ibox.zbase,&ibox.dx,&ibox.dy,&ibox.dz,&ibox.matid);
 			demvector.push_back(ibox);
 			std::getline(inputfile,auxline);
 		}
@@ -103,18 +95,20 @@ namespace IO {
 			}
 
 		}
-
 		// close the file
 		if(inputfile.is_open()) inputfile.close();
 	}
 
 	void WriteOutputFile()
 	{
-		std::cout<<"writing the file:"<<out_fname.c_str()<<"... \n";
-		outfile.open(out_fname.c_str(), std::fstream::out);
+		using namespace std;
+		outfile.open(out_fname.c_str(), fstream::out);
 		
 		// test
-		std::vector<Model::Particle>& parvec = Model::GetParticleVector();
+		vector<Model::Particle>& parvec = Model::GetParticleVector();
+
+		// header for plot
+		outfile<<"id x y z vol lp matid\n";
 
 		for (size_t i = 0; i < parvec.size(); ++i)
 		{
@@ -126,6 +120,9 @@ namespace IO {
 			outfile<<parvec.at(i).lp<<" ";
 			outfile<<parvec.at(i).matid<<"\n";
 		}
+
+		cout<<"it was writing "<<parvec.size()<<" particles...\n";
+		cout<<"please see the output file, "<<out_fname.c_str()<<"...\n";
 
 		// close the file
 		if(outfile.is_open()) outfile.close();
