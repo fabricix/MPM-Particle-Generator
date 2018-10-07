@@ -112,7 +112,7 @@ namespace IO {
 
 		for (size_t i = 0; i < parvec.size(); ++i)
 		{
-			outfile<<(i+1)<<" ";
+			outfile<<parvec.at(i).id<<" ";
 			outfile<<parvec.at(i).pos.x<<" ";
 			outfile<<parvec.at(i).pos.y<<" ";
 			outfile<<parvec.at(i).pos.z<<" ";

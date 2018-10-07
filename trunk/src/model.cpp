@@ -24,6 +24,7 @@ namespace Model
 		if(DemBoxVector.size()==0) { return; }
 
 		ParticleVector.clear();
+		int pid = 0;
 
 		for (size_t i = 0; i < DemBoxVector.size(); ++i)
 		{
@@ -47,6 +48,8 @@ namespace Model
 				prt1.vol = (dx*dy*dz)/8.0;
 				prt1.lp  = (meanL/ppc)*0.5;
 				prt1.matid = matid;
+				pid++;
+				prt1.id = pid; 
 				ParticleVector.push_back(prt1);
 
 				prt2.pos.x = ibox.pos.x+(dx*0.25);
@@ -55,6 +58,8 @@ namespace Model
 			    prt2.vol = (dx*dy*dz)/8.0;
 				prt2.lp  = (meanL/ppc)*0.5;
 				prt2.matid = matid;
+				pid++;
+				prt2.id = pid; 
 				ParticleVector.push_back(prt2);
 
 				prt3.pos.x = ibox.pos.x+(dx*0.25);
@@ -63,6 +68,8 @@ namespace Model
 			    prt3.vol = (dx*dy*dz)/8.0;
 				prt3.lp  = (meanL/ppc)*0.5;
 				prt3.matid = matid;
+				pid++;
+				prt3.id = pid; 
 				ParticleVector.push_back(prt3);
 
 				prt4.pos.x = ibox.pos.x-(dx*0.25);
@@ -71,6 +78,8 @@ namespace Model
 				prt4.vol = (dx*dy*dz)/8.0;
 				prt4.lp  = (meanL/ppc)*0.5;
 				prt4.matid = matid;
+				pid++;
+				prt4.id = pid; 
 				ParticleVector.push_back(prt4);
 				
 				iz += (dz*0.5);
