@@ -23,7 +23,7 @@ namespace Model
 	{ 
 		if(DemBoxVector.size()==0) { return; }
 
-		std::cout<<"creating mpm model from DEM elevation points... ";  
+		ParticleVector.clear();
 
 		for (size_t i = 0; i < DemBoxVector.size(); ++i)
 		{
@@ -74,12 +74,11 @@ namespace Model
 				ParticleVector.push_back(prt4);
 				
 				iz += (dz*0.5);
+
 			}
 			while(iz<ztop);
-
-			std::cout<<"deleting the dem vector...\n";
-			DemBoxVector.clear();
 		}
+		DemBoxVector.clear();
 	}
 
 	void CreateMPMmodel()
