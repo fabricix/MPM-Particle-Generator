@@ -17,23 +17,55 @@
 namespace IO {
 
 	static std::string input_fname;
-	static std::string output_fname;
+	static std::string out_fname;
 	static std::string path_out_fname;
 	static std::string path_input_fname;
 	static std::string path;
 
 	std::ifstream inputfile;
-	std::ifstream outputfile;
+	std::ofstream outfile;
 
-	static std::string TimeDataGet(){
+	//** statics
 
+	static std::string TimeDataGet()
+	{
    		time_t now = time(0);
    		char* dt = ctime(&now);
    		return std::string(dt);
 	}
 
-	void InitFileName(int argc, char **argv){
+	static void read_dem2mpm()
+	{
+		std::string auxline;
+		std::getline(inputfile,auxline);
+		
+		// get lines number
+		int nbox = 0;
+		std::sscanf(auxline.c_str(),"%d",&nbox);
+		
+		// read lines
+		std::getline(inputfile,auxline);
 
+		std::vector<Model::DemBox>& demvector = Model::GetDemVector();
+
+		if(nbox==0){
+			std::cout<<"ERROR: number of DEM box is = "<<nbox<<"\n";
+			return;
+		}
+
+		for( int i = 0; i < nbox; i++ )
+		{
+			Model::DemBox ibox;
+			std::sscanf(auxline.c_str(),"%lf%lf%lf%lf%lf%lf%d", &ibox.pos.x,&ibox.pos.y,&ibox.pos.z,&ibox.zbase,&ibox.dx,&ibox.dy,&ibox.dz,&ibox.matid);
+			demvector.push_back(ibox);
+			std::getline(inputfile,auxline);
+		}
+	}
+
+	//** globals
+
+	void InitFileName(int argc, char **argv)
+	{
 		// path set
 		if(argc>0){
 			std::string argv_str(argv[1]);
@@ -51,57 +83,51 @@ namespace IO {
 	    }
 
 		// name and path of output file
-		output_fname = "//mpm.part";
-		path_out_fname = path + output_fname;
+		out_fname = "mpm.part";
+		path_out_fname = path + out_fname;
 
 	}
 
-	 void ReadInputFile(){
+	void ReadInputFile()
+	{
+		inputfile.open (input_fname.c_str(), std::ifstream::in);
+		std::string line;
 
-		 inputfile.open (input_fname.c_str(), std::ifstream::in);
-		 std::string line;
+		while (std::getline(inputfile,line))
+		{
+			// DEM to MPM
+			std::size_t found = line.find("DEM.TO.MPM");
+			if (found!=std::string::npos)
+			{
+				read_dem2mpm();
+			}
 
-		 while (std::getline(inputfile,line))
-		 {
-			 std::size_t found = line.find("DEM.TO.MPM");
-			 if (found!=std::string::npos)
-			 {
-				 std::string auxline;
-				 std::getline(inputfile,auxline);
-				 int nbox = 0;
-				 std::sscanf(auxline.c_str(), "%d", &nbox);
+		}
 
-				 std::getline(inputfile,auxline);
+		// close the file
+		if(inputfile.is_open()) inputfile.close();
+	}
 
-				 std::vector<Model::DemBox> demvector = Model::GetDemVector();
-				 demvector.clear();
-				  if(nbox==0){
-					  std::cout<<"ERROR: number of DEM box is = "<<nbox<<"\n";
-					  return;
-				  }
+	void WriteOutputFile()
+	{
+		std::cout<<"writing the file:"<<out_fname.c_str()<<"... \n";
+		outfile.open(out_fname.c_str(), std::fstream::out);
+		
+		// test
+		std::vector<Model::Particle>& parvec = Model::GetParticleVector();
 
-				  for( int i = 0; i < nbox; i++ )
-				  {
-					  Model::DemBox ibox;
-				      std::sscanf( auxline.c_str(), "%lf%lf%lf%lf%lf%lf%d", &ibox.pos.x,&ibox.pos.y,&ibox.pos.z,&ibox.zbase,&ibox.dx,&ibox.dy,&ibox.matid);
-				      demvector.push_back(ibox);
-				  }
-			  }
+		for (size_t i = 0; i < parvec.size(); ++i)
+		{
+			outfile<<(i+1)<<" ";
+			outfile<<parvec.at(i).pos.x<<" ";
+			outfile<<parvec.at(i).pos.y<<" ";
+			outfile<<parvec.at(i).pos.z<<" ";
+			outfile<<parvec.at(i).vol<<" ";
+			outfile<<parvec.at(i).lp<<" ";
+			outfile<<parvec.at(i).matid<<"\n";
+		}
 
-		 }
-#if 0
-		 char str[256];
-		 char c;
-		   while (inputfile.get(c))          // loop getting single characters
-		     std::cout << c;
-#endif
-
-		 inputfile.close();
-	 }
-
-	 void WriteOutputFile(){
-
-
-
-	 }
+		// close the file
+		if(outfile.is_open()) outfile.close();
+	}
 }

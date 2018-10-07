@@ -17,9 +17,9 @@ int main(int argc, char **argv)
 
     IO::ReadInputFile();
 
-    //Model::CreateMPMmodel();
+    Model::CreateMPMmodel();
 
-    //OI::WriteOutputFile();
+    IO::WriteOutputFile();
 
     return 0;
 }
