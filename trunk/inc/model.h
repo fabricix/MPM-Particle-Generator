@@ -23,6 +23,7 @@ namespace Model
 
 	struct Particle
 	{
+		int id;
 		Vector3 pos;
 		double vol;
 		double lp;
