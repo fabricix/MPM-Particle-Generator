@@ -54,9 +54,7 @@ namespace IO {
 		}
 	}
 
-	//** globals
-
-	void InitFileName(int argc, char **argv)
+	static void init_file_name(int argc, char **argv)
 	{
 		// path set
 		if(argc>0){
@@ -75,13 +73,19 @@ namespace IO {
 	    }
 
 		// name and path of output file
-		out_fname = "mpm.part";
+		out_fname = "/mpm.part";
 		path_out_fname = path + out_fname;
 
 	}
 
-	void ReadInputFile()
+
+	//** globals
+
+
+	void ReadInputFile(int argc, char **argv)
 	{
+		init_file_name(argc, argv);
+
 		inputfile.open (input_fname.c_str(), std::ifstream::in);
 		std::string line;
 
@@ -102,13 +106,15 @@ namespace IO {
 	void WriteOutputFile()
 	{
 		using namespace std;
-		outfile.open(out_fname.c_str(), fstream::out);
+		outfile.open(path_out_fname.c_str(), fstream::out);
 		
 		// test
 		vector<Model::Particle>& parvec = Model::GetParticleVector();
 
 		// header for plot
 		outfile<<"id x y z vol lp matid\n";
+		outfile<<"%PARTICLES\n";
+		outfile<<parvec.size()<<"\n";
 
 		for (size_t i = 0; i < parvec.size(); ++i)
 		{
@@ -121,7 +127,7 @@ namespace IO {
 			outfile<<parvec.at(i).matid<<"\n";
 		}
 
-		cout<<"it was writing "<<parvec.size()<<" particles...\n";
+		cout<<"writing "<<parvec.size()<<" particles...\n";
 		cout<<"please see the output file, "<<out_fname.c_str()<<"...\n";
 
 		// close the file

@@ -5,17 +5,18 @@
  *      Author: fabricio
  */
 
+// C/C++
 #include <iostream>
 #include <string>
 #include <vector>
+
+// local
 #include "io.h"
 #include "model.h"
 
 int main(int argc, char **argv)
 {	
-    IO::InitFileName(argc, argv);
-
-    IO::ReadInputFile();
+    IO::ReadInputFile(argc, argv);
 
     Model::CreateMPMmodel();
 

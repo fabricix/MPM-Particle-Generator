@@ -13,11 +13,13 @@
 
 namespace Model
 {
-	static std::vector<DemBox> DemBoxVector;
-	std::vector<DemBox>& GetDemVector(){return DemBoxVector;}
+	using namespace std;
 
-	static std::vector<Particle> ParticleVector;
-	std::vector<Particle>& GetParticleVector(){return ParticleVector;}
+	static vector<DemBox> DemBoxVector;
+	vector<DemBox>& GetDemVector(){return DemBoxVector;}
+
+	static vector<Particle> ParticleVector;
+	vector<Particle>& GetParticleVector(){return ParticleVector;}
 
 	static void CreateMpmModelByDEM()
 	{ 
@@ -87,6 +89,8 @@ namespace Model
 			}
 			while(iz<ztop);
 		}
+
+		cout<<"it were read "<<DemBoxVector.size()<<" DEM boxes...\n";
 		DemBoxVector.clear();
 	}
 
