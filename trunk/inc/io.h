@@ -10,8 +10,7 @@
 
 namespace IO
 {
-	void InitFileName(int argc, char **argv);
-    void ReadInputFile();
+    void ReadInputFile(int argc, char **argv);
     void WriteOutputFile();
 }
 #endif /* INC_IO_H_ */
