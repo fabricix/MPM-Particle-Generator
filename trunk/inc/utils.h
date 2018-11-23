@@ -14,6 +14,4 @@ namespace Utils
 	double volumeTetrahedonGet(Vector3 p1,Vector3 p2,Vector3 p3,Vector3 p4);
 }
 
-
-
 #endif /* INC_UTILS_H_ */
