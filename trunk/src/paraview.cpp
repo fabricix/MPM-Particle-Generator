@@ -119,13 +119,15 @@ namespace ParaView
 		Vector3 spacing = Model::SpacingbyDirectionGet();
 		Vector3 ncelldir = Model::NnodesbyDirectionGet();
 		Vector3 origin = Model::MinGridCoordsGet();
-		int ngpoints = Model::NnodesGet();
+
+		Vector3 nbydir = Model::NnodesbyDirectionGet();
+		int ngpoints = (nbydir.x-1)*(nbydir.y-1)*(nbydir.z-1);
 
 		gridfile<<"# vtk DataFile Version 4.0\n";
 		gridfile<<"vtk output\n";
 		gridfile<<"ASCII\n";
 		gridfile<<"DATASET STRUCTURED_POINTS\n";
-		gridfile<<"DIMENSIONS "<<ncelldir.x+1<<" "<<ncelldir.y+1<<" "<<ncelldir.z+1<<"\n";
+		gridfile<<"DIMENSIONS "<<ncelldir.x<<" "<<ncelldir.y<<" "<<ncelldir.z<<"\n";
 		gridfile<<"SPACING "<<spacing.x<<" "<<spacing.y<<" "<<spacing.z<<"\n";
 		gridfile<<"ORIGIN  "<<origin.x<<" "<<origin.y<<" "<<origin.z<<" \n";
 		gridfile<<"CELL_DATA  "<<ngpoints<<"\n";
