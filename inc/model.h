@@ -67,10 +67,17 @@ namespace Model
 	std::vector<Particle>& GetParticleVector();
 	std::vector<mshPoint>& GetmshPointsVector();
 	std::vector<mshElement>& GetmshElementsVector();
-	mshGrid& GetmshGrid();
 	
+	mshGrid& GetmshGrid();
+	int NnodesGet();
+	std::vector<Vector3> GridNodesGet();
+	Vector3 SpacingbyDirectionGet();
+	Vector3 NnodesbyDirectionGet();
+	Vector3 RegionBeginGet();
+	Vector3 MinGridCoordsGet();
+
 	void CreateMPMmodel();
-	void initGrid(Vector3 limmin,Vector3 limmax, Vector3 Ncell);
+	void initGrid(Vector3 limmin,Vector3 limmax, Vector3 celldim);
 
 }
 
