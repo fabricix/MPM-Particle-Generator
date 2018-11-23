@@ -12,6 +12,8 @@
 
 namespace Model
 {
+	enum elemtypes { none, tet4 };
+
 	struct DemBox
 	{
 		Vector3 pos;
@@ -31,8 +33,24 @@ namespace Model
 		Particle():pos(0.0),vol(0.0),lp(0.0),matid(0){}
 	};
 	
+	struct mshPoint
+	{
+		int id;
+		Vector3 pos;
+		int bndry;
+	};
+
+	struct mshElement
+	{
+		int id;
+		int bndry;
+		std::vector<int> points;
+	};
+
 	std::vector<DemBox>& GetDemVector();
 	std::vector<Particle>& GetParticleVector();
+	std::vector<mshPoint>& GetmshPointsVector();
+	std::vector<mshElement>& GetmshElementsVector();
 	
 	void CreateMPMmodel();
 }
