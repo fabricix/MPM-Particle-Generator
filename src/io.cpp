@@ -20,6 +20,7 @@ namespace IO {
 	static std::string out_fname;
 	static std::string path_out_fname;
 	static std::string path;
+	static std::string line;
 
 	std::ifstream inputfile;
 	std::ofstream outfile;
@@ -54,6 +55,101 @@ namespace IO {
 		}
 	}
 
+
+	static void read_smesh_points()
+	{
+		std::getline(inputfile,line);
+		
+		// get lines number
+		int npnts;	// # of points
+		int dim;	// dimension
+		int attr;	// attributes
+		int bndry;	// # of boundary markers
+
+		std::sscanf(line.c_str(),"%d %d %d %d",&npnts,&dim,&attr,&bndry);
+
+		std::vector<Model::mshPoint>& pntsvector = Model::GetmshPointsVector();
+
+		if(npnts==0){
+			std::cout<<"ERROR: number of points is = "<<npnts<<"\n";
+			return;
+		}
+
+		for( int i = 0; i < npnts; i++ )
+		{
+			std::getline(inputfile,line);
+			Model::mshPoint ipnt;
+			std::sscanf(line.c_str(),"%d %lf %lf %lf %d", &ipnt.id,&ipnt.pos.x,&ipnt.pos.y,&ipnt.pos.z,&ipnt.bndry);
+			pntsvector.push_back(ipnt);
+		}
+
+		std::cout<<"reading "<<pntsvector.size()<<" points...\n";
+	}
+
+	static void read_smesh_elements()
+	{
+		std::getline(inputfile,line);
+		
+		// get lines number
+		int nelem;		// # of elements
+		int nodes;	    // # nodes or corners
+		int bndry;	    // # of boundary markers
+
+		std::sscanf(line.c_str(),"%d %d",&nelem, &bndry);
+
+		std::vector<Model::mshElement>& elemsvector = Model::GetmshElementsVector();
+
+		if(nelem==0){
+			std::cout<<"ERROR: number of elements is = "<<nelem<<"\n";
+			return;
+		}
+
+		for( int i = 0; i < nelem; i++ )
+		{
+			std::getline(inputfile,line);
+			Model::mshElement iele;
+			int nnodes,n1,n2,n3,n4,bndry;
+			
+			std::sscanf(line.c_str(),"%d %d %d %d %d %d",&nnodes,&n1,&n2,&n3,&n4,&bndry);
+			
+			iele.points.clear();
+			iele.points.push_back(n1);
+			iele.points.push_back(n2);
+			iele.points.push_back(n3);
+			iele.points.push_back(n4);
+			
+			iele.bndry = bndry;
+
+			elemsvector.push_back(iele);
+		}
+
+		std::cout<<"reading "<<elemsvector.size()<<" elements...\n";
+	}
+
+	static void read_smesh2mpm()
+	{	
+		std::cout<<"reading SMESH file...\n";
+		
+		while (std::getline(inputfile,line))
+		{
+			// points
+			std::size_t found1 = line.find("SMESH.POINTS");
+			if (found1!=std::string::npos)
+			{
+				std::cout<<"reading points in SMESH file...\n";
+				read_smesh_points();
+			}
+
+			// elements
+			std::size_t found2 = line.find("SMESH.ELEMENTS");
+			if (found2!=std::string::npos)
+			{	
+				std::cout<<"reading elements in SMESH file...\n";
+				read_smesh_elements();
+			}
+		}
+	}
+
 	static void init_file_name(int argc, char **argv)
 	{
 		// path set
@@ -81,21 +177,27 @@ namespace IO {
 
 	//** globals
 
-
 	void ReadInputFile(int argc, char **argv)
 	{
 		init_file_name(argc, argv);
 
 		inputfile.open (input_fname.c_str(), std::ifstream::in);
-		std::string line;
+		//std::string line;
 
 		while (std::getline(inputfile,line))
 		{
 			// DEM to MPM
-			std::size_t found = line.find("DEM.TO.MPM");
-			if (found!=std::string::npos)
+			std::size_t found1 = line.find("DEM.TO.MPM");
+			if (found1!=std::string::npos)
 			{
 				read_dem2mpm();
+			}
+
+			// SMESH to MPM
+			std::size_t found2 = line.find("SMESH");
+			if (found2!=std::string::npos)
+			{
+				read_smesh2mpm();
 			}
 
 		}
