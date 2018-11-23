@@ -119,6 +119,7 @@ namespace IO {
 			iele.points.push_back(n4);
 			
 			iele.bndry = bndry;
+			iele.mat = 1;
 
 			elemsvector.push_back(iele);
 		}
@@ -133,19 +134,18 @@ namespace IO {
 		while (std::getline(inputfile,line))
 		{
 			// points
-			std::size_t found1 = line.find("SMESH.POINTS");
-			if (found1!=std::string::npos)
+			if (line.find("SMESH.POINTS")!=std::string::npos)
 			{
 				std::cout<<"reading points in SMESH file...\n";
 				read_smesh_points();
 			}
 
 			// elements
-			std::size_t found2 = line.find("SMESH.ELEMENTS");
-			if (found2!=std::string::npos)
+			if (line.find("SMESH.ELEMENTS")!=std::string::npos)
 			{	
 				std::cout<<"reading elements in SMESH file...\n";
 				read_smesh_elements();
+				break;
 			}
 		}
 	}
@@ -174,6 +174,36 @@ namespace IO {
 
 	}
 
+	static void read_grid()
+	{
+		std::cout<<"reading GRID data...\n";
+		
+		Vector3 lim_min,lim_max;
+		Vector3 n_cells;
+
+		while (std::getline(inputfile,line))
+		{
+			// limits
+			if (line.find("GRID.LIMITS")!=std::string::npos)
+			{
+				std::cout<<"reading grid limits...\n";
+				std::getline(inputfile,line);
+				std::sscanf(line.c_str(),"%lf%lf%lf%lf%lf%lf",&lim_min.x,&lim_min.y,&lim_min.z,&lim_max.x,&lim_max.y,&lim_max.z);				
+			}
+
+			// grid dimension
+			if (line.find("GRID.DIMENSION")!=std::string::npos)
+			{	
+				std::cout<<"reading grid dimension...\n";
+				std::getline(inputfile,line);
+				std::sscanf(line.c_str(),"%lf%lf%lf",&n_cells.x,&n_cells.y,&n_cells.z);
+				break;
+			}
+		}
+
+		// init the grid
+		Model::initGrid(lim_min,lim_max,n_cells);
+	}
 
 	//** globals
 
@@ -182,22 +212,25 @@ namespace IO {
 		init_file_name(argc, argv);
 
 		inputfile.open (input_fname.c_str(), std::ifstream::in);
-		//std::string line;
 
 		while (std::getline(inputfile,line))
 		{
 			// DEM to MPM
-			std::size_t found1 = line.find("DEM.TO.MPM");
-			if (found1!=std::string::npos)
+			if (line.find("DEM.TO.MPM")!=std::string::npos)
 			{
 				read_dem2mpm();
 			}
 
 			// SMESH to MPM
-			std::size_t found2 = line.find("SMESH");
-			if (found2!=std::string::npos)
+			if (line.find("SMESH")!=std::string::npos)
 			{
 				read_smesh2mpm();
+			}
+
+			// GRID
+			if (line.find("GRID")!=std::string::npos)
+			{
+				read_grid();
 			}
 
 		}
