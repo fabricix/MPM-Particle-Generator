@@ -13,6 +13,7 @@
 
 #include "io.h"
 #include "model.h"
+#include "paraview.h"
 
 namespace IO {
 
@@ -179,7 +180,7 @@ namespace IO {
 		std::cout<<"reading GRID data...\n";
 		
 		Vector3 lim_min,lim_max;
-		Vector3 n_cells;
+		Vector3 celldim;
 
 		while (std::getline(inputfile,line))
 		{
@@ -196,13 +197,13 @@ namespace IO {
 			{	
 				std::cout<<"reading grid dimension...\n";
 				std::getline(inputfile,line);
-				std::sscanf(line.c_str(),"%lf%lf%lf",&n_cells.x,&n_cells.y,&n_cells.z);
+				std::sscanf(line.c_str(),"%lf%lf%lf",&celldim.x, &celldim.y, &celldim.z);
 				break;
 			}
 		}
 
 		// init the grid
-		Model::initGrid(lim_min,lim_max,n_cells);
+		Model::initGrid(lim_min,lim_max,celldim);
 	}
 
 	//** globals
@@ -267,5 +268,15 @@ namespace IO {
 
 		// close the file
 		if(outfile.is_open()) outfile.close();
+
+		// write the grid
+		ParaView::writegrid();
+		ParaView::writegridcell();
+		ParaView::writeparticles();
+	}
+
+	std::string pathGet()
+	{
+		return path;
 	}
 }
