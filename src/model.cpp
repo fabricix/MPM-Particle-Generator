@@ -182,13 +182,13 @@ namespace Model
 
 			double meanL = (L.x+L.y+L.z)/3.0;
 
-			// area coords
+			// area cords
 			double L1[5] = {0.1,0.1,0.1,0.7,0.25};
 			double L2[5] = {0.1,0.1,0.7,0.1,0.25};
 			double L3[5] = {0.1,0.7,0.1,0.1,0.25};
 			double L4[5] = {0.7,0.1,0.1,0.1,0.25};
 
-			// element node coords
+			// element node cords
 			double x21 = coord[0].x;
 			double x22 = coord[1].x;
 			double x23 = coord[2].x;
@@ -485,14 +485,21 @@ namespace Model
 		MpmModel_SMESH_Grid_Mapping();
 	}
 
-	void initGrid( Vector3 limmin,Vector3 limmax, Vector3 Ncell)
+	void initGrid( Vector3 limmin,Vector3 limmax, Vector3 celldim)
 	{
 		Grid.regionBegin = limmin;
 		Grid.regionEnd   = limmax;
-		Grid.dx = (limmax.x-limmin.x)/double(Ncell.x);
-		Grid.dy = (limmax.y-limmin.y)/double(Ncell.y);
-		Grid.dz = (limmax.z-limmin.z)/double(Ncell.z);
+		Grid.dx = celldim.x; //(limmax.x-limmin.x)/double(Ncell.x);
+		Grid.dy = celldim.y; //(limmax.y-limmin.y)/double(Ncell.y);
+		Grid.dz = celldim.z; //(limmax.z-limmin.z)/double(Ncell.z);
 		Grid.Ng = 2.0;
+
+		Vector3 Ncell;
+
+		Ncell.x = (limmax.x-limmin.x)/Grid.dx;
+		Ncell.y = (limmax.y-limmin.y)/Grid.dy;
+		Ncell.z = (limmax.z-limmin.z)/Grid.dz;
+
 		Grid.I = (Ncell.x+2*Grid.Ng+1);
         Grid.J = (Ncell.y+2*Grid.Ng+1);
         Grid.K = (Ncell.z+2*Grid.Ng+1);
@@ -518,6 +525,48 @@ namespace Model
 		    }
 		}
 		std::cout<<"was created a grid, with "<< Grid.gnodes.size()<<" nodes...\n";
+	}
+
+	int NnodesGet()
+	{
+		return Grid.Nnodes;
+	}
+
+	std::vector<Vector3> GridNodesGet()
+	{
+		return Grid.gnodes;
+	}
+
+	Vector3 SpacingbyDirectionGet()
+	{
+		return Vector3(Grid.dx,Grid.dy,Grid.dz);
+	}
+	
+	Vector3 NnodesbyDirectionGet()
+	{
+		return Vector3(Grid.I,Grid.J,Grid.K);
+	}
+
+	Vector3 RegionBeginGet()
+	{
+		return Grid.regionBegin;
+	}
+
+	Vector3 MinGridCoordsGet()
+	{
+		double minx(0.0), miny (0.0), minz (0.0);
+		Vector3 pos(0.0);
+
+		for (size_t i = 0; i < Grid.gnodes.size(); ++i)
+		{
+			pos = Grid.gnodes.at(i);
+
+			if (pos.x<minx){ minx = pos.x ;}
+			if (pos.y<miny){ miny = pos.y ;}
+			if (pos.z<minz){ minz = pos.z ;}
+		}
+
+		return Vector3(minx,miny,minz);
 	}
 
 	void CreateMPMmodel()
