@@ -26,6 +26,8 @@ namespace IO {
 	std::ifstream inputfile;
 	std::ofstream outfile;
 
+	static bool smesh_material_falg = false;
+
 	//** statics
 
 	static void read_dem2mpm()
@@ -93,7 +95,6 @@ namespace IO {
 		
 		// get lines number
 		int nelem;		// # of elements
-		int nodes;	    // # nodes or corners
 		int bndry;	    // # of boundary markers
 
 		std::sscanf(line.c_str(),"%d %d",&nelem, &bndry);
@@ -105,13 +106,17 @@ namespace IO {
 			return;
 		}
 
+		//smesh_material_falg
 		for( int i = 0; i < nelem; i++ )
 		{
 			std::getline(inputfile,line);
 			Model::mshElement iele;
-			int nnodes,n1,n2,n3,n4,bndry;
+			int nnodes,n1,n2,n3,n4,bndry,matid(1.0);
 			
-			std::sscanf(line.c_str(),"%d %d %d %d %d %d",&nnodes,&n1,&n2,&n3,&n4,&bndry);
+			if (smesh_material_falg)
+				std::sscanf(line.c_str(),"%d %d %d %d %d %d %d",&nnodes,&n1,&n2,&n3,&n4,&bndry,&matid);
+			else
+				std::sscanf(line.c_str(),"%d %d %d %d %d %d",&nnodes,&n1,&n2,&n3,&n4,&bndry);
 			
 			iele.points.clear();
 			iele.points.push_back(n1);
@@ -120,7 +125,7 @@ namespace IO {
 			iele.points.push_back(n4);
 			
 			iele.bndry = bndry;
-			iele.mat = 1;
+			iele.mat = matid;
 
 			elemsvector.push_back(iele);
 		}
@@ -134,6 +139,13 @@ namespace IO {
 		
 		while (std::getline(inputfile,line))
 		{
+			// material flag
+			if (line.find("SMESH.MATERIAL.FLAG")!=std::string::npos)
+			{
+				std::cout<<"assuming mesh with material ...\n";
+				smesh_material_falg = true;
+			}
+
 			// points
 			if (line.find("SMESH.POINTS")!=std::string::npos)
 			{

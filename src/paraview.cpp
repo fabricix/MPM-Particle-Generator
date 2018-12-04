@@ -182,9 +182,9 @@ namespace ParaView
 		partfile <<"\t\t\t<PointData Scalars=\"scalars\">\n";
 		
 		// user fixed points
-		partfile <<"\t\t\t\t<DataArray type=\"Float32\" Name=\"Fixed\" Format=\"ascii\">\n";
+		partfile <<"\t\t\t\t<DataArray type=\"Float32\" Name=\"Mat\" Format=\"ascii\">\n";
 		for (int i = 0; i < ngpoints; ++i){
-			partfile << scientific <<"\t\t\t\t\t"<<0.0<<"\n";
+			partfile << scientific <<"\t\t\t\t\t"<<particles[i].matid<<"\n";
 		}
 		partfile <<"\t\t\t\t</DataArray>\n";
 
