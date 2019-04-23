@@ -6,8 +6,8 @@
  */
 
 
-#ifndef TENSOR_H
-#define TENSOR_H
+#ifndef INC_TENSOR_H
+#define INC_TENSOR_H
 
 #include <iostream>
 #include <iomanip>
@@ -16,9 +16,8 @@
 #include <cmath>
 #include <math.h>
 
-const double pi=3.1415926535897932384626433832795028841971694;
-const double machTol=16.*std::numeric_limits<double>::epsilon();
-using namespace std;
+double pi=3.1415926535897932384626433832795028841971694;
+double machinetol=std::numeric_limits<double>::epsilon();
 
 /* ---------------------------------------------------------------------------*/
 
@@ -547,4 +546,4 @@ inline Matrix3 Matrix3::inner(const Matrix3&n)const{ Matrix3 a(xx,xy,xz,yx,yy,yz
 void eigen(Matrix3 s, Vector3& eival, Matrix3& eivec);
 void eigen(Matrix3 s, Vector3& eival,Vector3& n1,Vector3& n2,Vector3& n3);
 
-#endif
+#endif /* INC_TENSOR_H */
