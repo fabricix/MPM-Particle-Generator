@@ -58,7 +58,6 @@ namespace IO {
 		}
 	}
 
-
 	static void read_smesh_points()
 	{
 		std::getline(inputfile,line);
