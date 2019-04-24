@@ -16,19 +16,19 @@
 #include <cmath>
 #include <math.h>
 
-double pi=3.1415926535897932384626433832795028841971694;
-double machinetol=std::numeric_limits<double>::epsilon();
+const double pi=3.1415926535897932384626433832795028841971694;
+const double MACHINE_TOL=std::numeric_limits<double>::epsilon();
 
 /* ---------------------------------------------------------------------------*/
 
-template<class charT,class traits>
-   basic_ostream<charT,traits>&tab(basic_ostream<charT,traits>&os){os<<'\t'<<setw(10);return os;}
-template<class charT,class traits>
-   basic_ostream<charT,traits>&nwl(basic_ostream<charT,traits>&os){os<<'\n'<<setw(10);return os;}
+//template<class charT,class traits>
+//   basic_ostream<charT,traits>&tab(basic_ostream<charT,traits>&os){os<<'\t'<<setw(10);return os;}
+//template<class charT,class traits>
+//   basic_ostream<charT,traits>&nwl(basic_ostream<charT,traits>&os){os<<'\n'<<setw(10);return os;}
 
 /* ---------------------------------------------------------------------------*/
 
-inline double Pceil(const double&d){return ceil(d-machTol);}
+inline double Pceil(const double&d){return ceil(d-MACHINE_TOL);}
 
 template<typename T>inline T abs(T a){return(a<0.?-a:a);}
 template<typename T>inline T sgn(T a){return(a<0.?-1.:1.);}
@@ -290,7 +290,7 @@ inline double determinant(const Matrix3&m){ return det(m); }
 //<--
 
 // query
-inline double absMax(const Matrix2&s){return max(max(abs(s.xx),abs(s.xy)),max(abs(s.yx),abs(s.yy)));}
+inline double absMax(const Matrix2&s){return std::max(std::max(abs(s.xx),abs(s.xy)),std::max(abs(s.yx),abs(s.yy)));}
 
 // indentity -->
 inline Matrix2 identity2D(const double f=1.){return Matrix2(f,0.,0.,f);}
@@ -440,15 +440,15 @@ inline double invariant3(Matrix3 a){
 //<--
 
 // Printing operations -->
-inline std::ostream& operator<<(std::ostream&os,const Vector2&v){os<<v.x<<tab<<v.y;return os;}
+inline std::ostream& operator<<(std::ostream&os,const Vector2&v){os<<v.x<<", "<<v.y;return os;}
 inline std::istream& operator>>(std::istream&is,Vector2&v){is>>v.x     >>v.y;return is;}
-inline std::ostream& operator<<(std::ostream&os,const Matrix2&m){os<<m.xx<<tab<<m.xy<<tab<<m.yx<<tab<<m.yy;return os;}
+inline std::ostream& operator<<(std::ostream&os,const Matrix2&m){os<<m.xx<<", "<<m.xy<<", "<<m.yx<<", "<<m.yy;return os;}
 inline std::istream& operator>>(std::istream&is,Matrix2&v){is>>v.xx    >>v.xy     >>v.yx     >>v.yy;return is;}
-inline std::ostream& operator<<(std::ostream&os,const Vector3&v){os<<v.x<<tab<<v.y<<tab<<v.z;return os;}
-inline std::istream& operator>>(std::istream&is,Vector3&v){is>>v.x     >>v.y      >>v.z;return is;}
+inline std::ostream& operator<<(std::ostream&os,const Vector3&v){os<<v.x<<", "<<v.y<<", "<<v.z;return os;}
+inline std::istream& operator>>(std::istream&is,Vector3&v){is>>v.x>>v.y>>v.z;return is;}
 inline std::ostream& operator<<(std::ostream&os,const Matrix3&m)
-{os<<m.xx<<tab<<m.xy<<tab<<m.xz<<tab<<m.yx<<tab<<m.yy<<tab<<m.yz<<tab<<m.zx<<tab<<m.zy<<tab<<m.zz;return os;}
-inline std::istream& operator>>(std::istream&is,Matrix3&v){is>>v.xx     >>v.xy     >>v.xz     >>v.yx     >>v.yy     >>v.yz     >>v.zx     >>v.zy     >>v.zz;return is;}
+{os<<m.xx<<", "<<m.xy<<", "<<m.xz<<", "<<m.yx<<", "<<m.yy<<", "<<m.yz<<", "<<m.zx<<", "<<m.zy<<", "<<m.zz;return os;}
+inline std::istream& operator>>(std::istream&is,Matrix3&v){is>>v.xx>>v.xy>>v.xz>>v.yx>>v.yy>>v.yz>>v.zx>>v.zy>>v.zz;return is;}
 //<--
 
 // magnitude of a vector -->
@@ -468,13 +468,13 @@ inline double TwoPointsDistance( Vector3 u, Vector3 v){
 //<--
 
 // utit vector -->
-inline Vector2 unit(const Vector2&u){assert(abs(u.x)>machTol||abs(u.y)>machTol);return u/magnitude(u);}
-inline Vector3 unit(const Vector3&u){assert(abs(u.x)>machTol||abs(u.y)>machTol||abs(u.z)>machTol);return u/magnitude(u);}
+inline Vector2 unit(const Vector2&u){assert(abs(u.x)>MACHINE_TOL||abs(u.y)>MACHINE_TOL);return u/magnitude(u);}
+inline Vector3 unit(const Vector3&u){assert(abs(u.x)>MACHINE_TOL||abs(u.y)>MACHINE_TOL||abs(u.z)>MACHINE_TOL);return u/magnitude(u);}
 //<--
 
 inline double radius(const Vector2&u,const Vector2&v){
    const double s=(u.x-v.x)*(u.x-v.x)+(u.y-v.y)*(u.y-v.y);
-   return(s>machTol?std::sqrt(s):0.) ;
+   return(s>MACHINE_TOL?std::sqrt(s):0.) ;
 }
 
 // return the effectove von mises stress -->

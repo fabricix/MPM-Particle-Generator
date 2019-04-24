@@ -23,6 +23,13 @@ namespace Model
 		DemBox():pos(0.0),zbase(0.0),dx(0.0),dy(0.0),dz(0.0),matid(0){}
 	};
 
+	struct HorizontPoint
+	{
+		Vector3 pos;
+		int matid;
+		HorizontPoint():pos(0.0),matid(0){}
+	};
+
 	struct Particle
 	{
 		int id;
@@ -30,7 +37,7 @@ namespace Model
 		double vol;
 		double lp;
 		int matid;
-		Particle():pos(0.0),vol(0.0),lp(0.0),matid(0){}
+		Particle():id(0),pos(0.0),vol(0.0),lp(0.0),matid(0){}
 	};
 	
 	struct mshPoint
@@ -67,6 +74,7 @@ namespace Model
 	std::vector<Particle>& GetParticleVector();
 	std::vector<mshPoint>& GetmshPointsVector();
 	std::vector<mshElement>& GetmshElementsVector();
+	std::vector<HorizontPoint>& GetHorizontVector();
 	
 	mshGrid& GetmshGrid();
 	int NnodesGet();
@@ -78,6 +86,10 @@ namespace Model
 
 	void CreateMPMmodel();
 	void initGrid(Vector3 limmin,Vector3 limmax, Vector3 celldim);
+	
+	// horizonts	
+	void SetHorizonNumber(int nhor);
+	int  GetHorizonNumber( );
 
 }
 
