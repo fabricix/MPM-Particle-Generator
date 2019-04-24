@@ -30,34 +30,40 @@ namespace IO {
 
 	//** statics
 
-	static void read_dem_horizonts ()
+	static void read_dem_horizonts()
 	{
-		std::string auxline;
-		
-		// horizon ID (material ID)
-		int hor_id = 0;
-		std::getline(inputfile,auxline);
-		std::sscanf(auxline.c_str(),"%d",&hor_id);
-		
-		// get number of lines
-		int nHpnts = 0;
-		std::getline(inputfile,auxline);
-		std::sscanf(auxline.c_str(),"%d",&nHpnts);
+		std::vector<std::vector<Model::HorizontPoint> >& horvector = Model::GetHorizontVector();
 
-		std::vector<Model::HorizontPoint>& horvector = Model::GetHorizontVector();
+		for (int ih = 0; ih <Model::GetHorizonNumber(); ++ih)
+		{	
+			std::string auxline;
 
-		if(nHpnts==0){
+			// horizon ID (material ID)
+			int hor_id = 0;
+			std::getline(inputfile,auxline);
+			std::sscanf(auxline.c_str(),"%d",&hor_id);
+
+			// get number of lines
+			int nHpnts = 0;
+			std::getline(inputfile,auxline);
+			std::sscanf(auxline.c_str(),"%d",&nHpnts);
+
+			if(nHpnts==0){
 			std::cout<<"ERROR: number of Horizonts is = "<<nHpnts<<"\n";
 			return;
-		}
-
-		for( int i = 0; i < nHpnts; i++ )
-		{
-			std::getline(inputfile,auxline);
-			Model::HorizontPoint ihpnt;
-			std::sscanf(auxline.c_str(),"%lf%lf%lf", &ihpnt.pos.x,&ihpnt.pos.y,&ihpnt.pos.z);
-			ihpnt.matid = hor_id;
-			horvector.push_back(ihpnt);
+			}
+			
+			std::vector<Model::HorizontPoint> hvec;
+			for( int i = 0; i < nHpnts; i++ )
+			{
+				std::getline(inputfile,auxline);
+				Model::HorizontPoint ihpnt;
+				std::sscanf(auxline.c_str(),"%lf%lf%lf", &ihpnt.pos.x,&ihpnt.pos.y,&ihpnt.pos.z);
+				ihpnt.matid = hor_id;
+				hvec.push_back(ihpnt);
+			}
+			
+			horvector.push_back(hvec);
 		}
 	}
 
