@@ -28,8 +28,8 @@ namespace Model
 	static vector<mshElement> mshElementsVector;
 	vector<mshElement>& GetmshElementsVector(){return mshElementsVector;}
 
-	static vector<HorizontPoint> HorizontPointVector;
-	vector<HorizontPoint>& GetHorizontVector(){return HorizontPointVector;}
+	static vector<vector<HorizontPoint> > HorizontPointVector;
+	vector<vector<HorizontPoint> >& GetHorizontVector(){return HorizontPointVector;}
 
 	static mshGrid Grid;
 	mshGrid& GetmshGrid(){return Grid;}
@@ -43,26 +43,28 @@ namespace Model
 
 	static void mapHorizonPoints2DemPoints()
 	{	
-		for (size_t i = 0; i < HorizontPointVector.size(); ++i)
+		for (size_t ih = 0; ih < HorizontPointVector.size(); ++ih)
 		{
-			int dem_index = -1;
-			double mindist = 1e10;	
-			Vector3 ihpos = HorizontPointVector.at(i).pos;
-
-			for (size_t j = 0; j < DemBoxVector.size(); ++j)
+			for (size_t i = 0; i < HorizontPointVector.at(ih).size(); ++i)
 			{
-				Vector3 pos = DemBoxVector.at(j).pos;
-				double dist = std::sqrt(std::pow((pos.x-ihpos.x),2.0)+std::pow((pos.y-ihpos.y),2.0));
+				int dem_index = -1;
+				double mindist = 1e10;	
+				Vector3 ihpos = HorizontPointVector.at(ih).at(i).pos;
 
-				if (dist<=mindist)
+				for (size_t j = 0; j < DemBoxVector.size(); ++j)
 				{
-					mindist = dist;
-					dem_index = j;
-				}
-			}
+					Vector3 pos = DemBoxVector.at(j).pos;
+					double dist = std::sqrt(std::pow((pos.x-ihpos.x),2.0)+std::pow((pos.y-ihpos.y),2.0));
 
-			DemBoxVector.at(dem_index).hpnt = HorizontPointVector.at(i);
-			DemBoxVector.at(dem_index).is_horizon_active = true;
+					if (dist<=mindist)
+					{
+						mindist = dist;
+						dem_index = j;
+					}
+				}
+
+				DemBoxVector.at(dem_index).hpnt.push_back(HorizontPointVector.at(ih).at(i));
+			}
 		}
 	}
 
@@ -184,13 +186,17 @@ namespace Model
 			double meanL = (dx+dy+dz)/3.0;
             double ppc = 2.0;
             double iz = zbase + (dz*0.25);
-            bool hactive = ibox.is_horizon_active;
-            HorizontPoint ihor = DemBoxVector.at(i).hpnt;
 
 			Particle prt1,prt2,prt3,prt4;
 			do
 			{	
-				if (hactive && (iz > ihor.pos.z)) {matid = ihor.matid;}
+				for (size_t ih = 0; ih < DemBoxVector.at(i).hpnt.size(); ++ih)
+				{
+					if (iz > DemBoxVector.at(i).hpnt.at(ih).pos.z)
+					{
+						matid = DemBoxVector.at(i).hpnt.at(ih).matid;
+					}
+				}
 
 				prt1.pos.x = ibox.pos.x-(dx*0.25);
 				prt1.pos.y = ibox.pos.y-(dy*0.25);
@@ -239,7 +245,7 @@ namespace Model
 		}
 
 		cout<<"it were read "<<DemBoxVector.size()<<" DEM boxes...\n";
-		cout<<"it were read "<<HorizontPointVector.size()<<" Horizon points...\n";
+		cout<<"it were read "<<HorizontPointVector.size()<<" Horizons...\n";
 		DemBoxVector.clear();
 	}
 	
