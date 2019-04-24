@@ -20,16 +20,16 @@ namespace Model
 		int matid;
 		HorizontPoint():pos(0.0),matid(0){}
 	};
-
+	
 	struct DemBox
 	{
 		Vector3 pos;
 		double zbase;
 		double dx,dy,dz;
 		int matid;
-		HorizontPoint hpnt;
-		bool is_horizon_active;
-		DemBox():pos(0.0),zbase(0.0),dx(0.0),dy(0.0),dz(0.0),matid(0),hpnt(),is_horizon_active(false){}
+		std::vector<HorizontPoint> hpnt;
+		//std::vector<bool> is_horizon_active;
+		DemBox():pos(0.0),zbase(0.0),dx(0.0),dy(0.0),dz(0.0),matid(0){}
 	};
 
 	struct Particle
@@ -76,7 +76,7 @@ namespace Model
 	std::vector<Particle>& GetParticleVector();
 	std::vector<mshPoint>& GetmshPointsVector();
 	std::vector<mshElement>& GetmshElementsVector();
-	std::vector<HorizontPoint>& GetHorizontVector();
+	std::vector<std::vector<HorizontPoint> >& GetHorizontVector();
 	
 	mshGrid& GetmshGrid();
 	int NnodesGet();
