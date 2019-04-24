@@ -31,7 +31,7 @@ namespace ParaView
 		if(Edian==""){ defineEdian(); }
 
 		// open the file
-		ofstream gridfile;
+		std::ofstream gridfile;
 		std::string fname = IO::pathGet() + "/grid" + ".vtu";
 		gridfile.open(fname.c_str());
 		gridfile.precision(4);
@@ -44,14 +44,14 @@ namespace ParaView
 
 		// points
 		int ngpoints = Model::NnodesGet();
-		gridfile <<fixed<<"\t<Piece NumberOfPoints=\""<<ngpoints<<"\" NumberOfCells=\""<<ngpoints<<"\">\n";
+		gridfile <<std::fixed<<"\t<Piece NumberOfPoints=\""<<ngpoints<<"\" NumberOfCells=\""<<ngpoints<<"\">\n";
 		gridfile <<"\t\t<Points>\n";
 
 		// position
 		std::vector<Vector3> gnodes = Model::GridNodesGet();
 		gridfile <<"\t\t\t<DataArray type=\"Float32\" NumberOfComponents=\"3\" Format=\"ascii\">\n";
 		for (int i = 0; i < ngpoints; ++i){
-		  gridfile<<scientific<<"\t\t\t\t"<<gnodes[i].x<<"\t"<<gnodes[i].y<<"\t"<<gnodes[i].z<<"\n";
+		  gridfile<<std::scientific<<"\t\t\t\t"<<gnodes[i].x<<"\t"<<gnodes[i].y<<"\t"<<gnodes[i].z<<"\n";
 		}
 		gridfile <<"\t\t\t</DataArray>\n";
 
@@ -63,14 +63,14 @@ namespace ParaView
 		// user fixed points
 		gridfile <<"\t\t\t\t<DataArray type=\"Float32\" Name=\"Fixed\" Format=\"ascii\">\n";
 		for (int i = 0; i < ngpoints; ++i){
-			gridfile << scientific <<"\t\t\t\t\t"<<0.0<<"\n";
+			gridfile<<std::scientific<<"\t\t\t\t\t"<<0.0<<"\n";
 		}
 		gridfile <<"\t\t\t\t</DataArray>\n";
 
 		// id
 		gridfile <<"\t\t\t\t<DataArray type=\"Float32\" Name=\"Id\" Format=\"ascii\">\n";
 		for (int i = 0; i < ngpoints; ++i){
-			gridfile << scientific <<"\t\t\t\t\t"<<i<<"\n";
+			gridfile<<std::scientific<<"\t\t\t\t\t"<<i<<"\n";
 		}
 		gridfile <<"\t\t\t\t</DataArray>\n";
 
@@ -80,7 +80,7 @@ namespace ParaView
 		gridfile <<"\t\t\t<Cells>\n";
 		gridfile <<"\t\t\t\t<DataArray type=\"Int32\" Name=\"connectivity\" Format=\"ascii\">\n";
 		for (int i = 0; i < ngpoints; ++i){
-			gridfile << scientific  <<"\t\t\t\t\t"<<i<<"\n";
+			gridfile<<std::scientific<<"\t\t\t\t\t"<<i<<"\n";
 		}
 		gridfile <<"\t\t\t\t</DataArray>\n";
 
@@ -111,7 +111,7 @@ namespace ParaView
 		if(Edian==""){ defineEdian(); }
 
 		// open the file
-		ofstream gridfile;
+		std::ofstream gridfile;
 		std::string fname = IO::pathGet() + "/grid-cells" + ".vtk";
 		gridfile.open(fname.c_str());
 		gridfile.precision(4);
@@ -151,7 +151,7 @@ namespace ParaView
 		if(Edian==""){ defineEdian(); }
 
 		// open the file
-		ofstream partfile;
+		std::ofstream partfile;
 		std::string fname = IO::pathGet() + "/particles" + ".vtu";
 		partfile.open(fname.c_str());
 		partfile.precision(4);
@@ -165,14 +165,14 @@ namespace ParaView
 
 		// points
 		int ngpoints = Model::GetParticleVector().size();
-		partfile <<fixed<<"\t<Piece NumberOfPoints=\""<<ngpoints<<"\" NumberOfCells=\""<<ngpoints<<"\">\n";
+		partfile <<std::fixed<<"\t<Piece NumberOfPoints=\""<<ngpoints<<"\" NumberOfCells=\""<<ngpoints<<"\">\n";
 		partfile <<"\t\t<Points>\n";
 
 		// position
 		std::vector<Model::Particle> particles = Model::GetParticleVector();
 		partfile <<"\t\t\t<DataArray type=\"Float32\" NumberOfComponents=\"3\" Format=\"ascii\">\n";
 		for (int i = 0; i < ngpoints; ++i){
-		  partfile<<scientific<<"\t\t\t\t"<<particles[i].pos.x<<"\t"<<particles[i].pos.y<<"\t"<<particles[i].pos.z<<"\n";
+		  partfile<<std::scientific<<"\t\t\t\t"<<particles[i].pos.x<<"\t"<<particles[i].pos.y<<"\t"<<particles[i].pos.z<<"\n";
 		}
 		partfile <<"\t\t\t</DataArray>\n";
 
@@ -184,14 +184,14 @@ namespace ParaView
 		// user fixed points
 		partfile <<"\t\t\t\t<DataArray type=\"Float32\" Name=\"Mat\" Format=\"ascii\">\n";
 		for (int i = 0; i < ngpoints; ++i){
-			partfile << scientific <<"\t\t\t\t\t"<<particles[i].matid<<"\n";
+			partfile<<std::scientific<<"\t\t\t\t\t"<<particles[i].matid<<"\n";
 		}
 		partfile <<"\t\t\t\t</DataArray>\n";
 
 		// id
 		partfile <<"\t\t\t\t<DataArray type=\"Float32\" Name=\"Id\" Format=\"ascii\">\n";
 		for (int i = 0; i < ngpoints; ++i){
-			partfile << scientific <<"\t\t\t\t\t"<<i<<"\n";
+			partfile<<std::scientific<<"\t\t\t\t\t"<<i<<"\n";
 		}
 		partfile <<"\t\t\t\t</DataArray>\n";
 
@@ -201,7 +201,7 @@ namespace ParaView
 		partfile <<"\t\t\t<Cells>\n";
 		partfile <<"\t\t\t\t<DataArray type=\"Int32\" Name=\"connectivity\" Format=\"ascii\">\n";
 		for (int i = 0; i < ngpoints; ++i){
-			partfile << scientific  <<"\t\t\t\t\t"<<i<<"\n";
+			partfile<<std::scientific<<"\t\t\t\t\t"<<i<<"\n";
 		}
 		partfile <<"\t\t\t\t</DataArray>\n";
 

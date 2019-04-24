@@ -2,7 +2,7 @@
  * model.cpp
  *
  *  Created on: Oct 6, 2018
- *      Author: fabricio
+ *      Author: fabricio fernandez <fabricio.hmf@gmail.com>
  */
 
 
@@ -28,11 +28,18 @@ namespace Model
 	static vector<mshElement> mshElementsVector;
 	vector<mshElement>& GetmshElementsVector(){return mshElementsVector;}
 
+	static vector<HorizontPoint> HorizontPointVector;
+	vector<HorizontPoint>& GetHorizontVector(){return HorizontPointVector;}
+
 	static mshGrid Grid;
 	mshGrid& GetmshGrid(){return Grid;}
 
 	static std::vector<bool> cellid;
 	static std::vector<int> materialidcell;
+
+	static int nHorizonts;
+	void SetHorizonNumber(int nhor){nHorizonts = nhor;}
+	int  GetHorizonNumber( ){return nHorizonts;}
 
 	static int inCell(Vector3 pos)
 	{
