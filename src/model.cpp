@@ -41,6 +41,31 @@ namespace Model
 	void SetHorizonNumber(int nhor){nHorizonts = nhor;}
 	int  GetHorizonNumber( ){return nHorizonts;}
 
+	static void mapHorizonPoints2DemPoints()
+	{	
+		for (size_t i = 0; i < HorizontPointVector.size(); ++i)
+		{
+			int dem_index = -1;
+			double mindist = 1e10;	
+			Vector3 ihpos = HorizontPointVector.at(i).pos;
+
+			for (size_t j = 0; j < DemBoxVector.size(); ++j)
+			{
+				Vector3 pos = DemBoxVector.at(j).pos;
+				double dist = std::sqrt(std::pow((pos.x-ihpos.x),2.0)+std::pow((pos.y-ihpos.y),2.0));
+
+				if (dist<=mindist)
+				{
+					mindist = dist;
+					dem_index = j;
+				}
+			}
+
+			DemBoxVector.at(dem_index).hpnt = HorizontPointVector.at(i);
+			DemBoxVector.at(dem_index).is_horizon_active = true;
+		}
+	}
+
 	static int inCell(Vector3 pos)
 	{
 		int i = floor((pos.x-Grid.regionBegin.x)/Grid.dx+Grid.Ng);
@@ -66,7 +91,7 @@ namespace Model
 	static void CreateMpmModelByDEM()
 	{ 
 		if(DemBoxVector.size()==0) { return; }
-
+		if(HorizontPointVector.size()!=0) { return; }
 		ParticleVector.clear();
 		int pid = 0;
 
@@ -136,6 +161,88 @@ namespace Model
 		DemBoxVector.clear();
 	}
 
+	static void CreateMpmModelByDEMHorizonts()
+	{ 
+		if(DemBoxVector.size()==0) { return; }
+		if(HorizontPointVector.size()==0) { return; }
+
+		// map the horizont points to dem points
+		mapHorizonPoints2DemPoints();
+
+		ParticleVector.clear();
+		int pid = 0;
+
+		for (size_t i = 0; i < DemBoxVector.size(); ++i)
+		{
+			DemBox ibox = DemBoxVector.at(i);
+			double dx = ibox.dx; 
+			double dy = ibox.dy;
+			double dz = ibox.dz;
+			double zbase = ibox.zbase;
+			double ztop  = ibox.pos.z;
+			int matid = ibox.matid;
+			double meanL = (dx+dy+dz)/3.0;
+            double ppc = 2.0;
+            double iz = zbase + (dz*0.25);
+            bool hactive = ibox.is_horizon_active;
+            HorizontPoint ihor = DemBoxVector.at(i).hpnt;
+
+			Particle prt1,prt2,prt3,prt4;
+			do
+			{	
+				if (hactive && (iz > ihor.pos.z)) {matid = ihor.matid;}
+
+				prt1.pos.x = ibox.pos.x-(dx*0.25);
+				prt1.pos.y = ibox.pos.y-(dy*0.25);
+				prt1.pos.z = iz;
+				prt1.vol = (dx*dy*dz)/8.0;
+				prt1.lp  = (meanL/ppc)*0.5;
+				prt1.matid = matid;
+				pid++;
+				prt1.id = pid; 
+				ParticleVector.push_back(prt1);
+
+				prt2.pos.x = ibox.pos.x+(dx*0.25);
+				prt2.pos.y = ibox.pos.y-(dy*0.25);
+				prt2.pos.z = iz;
+			    prt2.vol = (dx*dy*dz)/8.0;
+				prt2.lp  = (meanL/ppc)*0.5;
+				prt2.matid = matid;
+				pid++;
+				prt2.id = pid; 
+				ParticleVector.push_back(prt2);
+
+				prt3.pos.x = ibox.pos.x+(dx*0.25);
+				prt3.pos.y = ibox.pos.y+(dy*0.25);
+				prt3.pos.z = iz;
+			    prt3.vol = (dx*dy*dz)/8.0;
+				prt3.lp  = (meanL/ppc)*0.5;
+				prt3.matid = matid;
+				pid++;
+				prt3.id = pid; 
+				ParticleVector.push_back(prt3);
+
+				prt4.pos.x = ibox.pos.x-(dx*0.25);
+				prt4.pos.y = ibox.pos.y+(dy*0.25);
+				prt4.pos.z = iz;
+				prt4.vol = (dx*dy*dz)/8.0;
+				prt4.lp  = (meanL/ppc)*0.5;
+				prt4.matid = matid;
+				pid++;
+				prt4.id = pid; 
+				ParticleVector.push_back(prt4);
+				
+				iz += (dz*0.5);
+
+			}
+			while(iz<ztop);
+		}
+
+		cout<<"it were read "<<DemBoxVector.size()<<" DEM boxes...\n";
+		cout<<"it were read "<<HorizontPointVector.size()<<" Horizon points...\n";
+		DemBoxVector.clear();
+	}
+	
 	static void MpmModel_SMESH_Element_Mapping()
 	{ 
 		if(mshElementsVector.size()==0) { return; }
@@ -579,6 +686,7 @@ namespace Model
 	void CreateMPMmodel()
 	{
 		CreateMpmModelByDEM();
+		CreateMpmModelByDEMHorizonts();
 		CreateMpmModelBySMESH();
 	}
 }

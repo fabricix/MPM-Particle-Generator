@@ -55,7 +55,8 @@ namespace IO {
 		{
 			std::getline(inputfile,auxline);
 			Model::HorizontPoint ihpnt;
-			std::sscanf(auxline.c_str(),"%lf%lf%lf%d", &ihpnt.pos.x,&ihpnt.pos.y,&ihpnt.pos.z,&ihpnt.matid);
+			std::sscanf(auxline.c_str(),"%lf%lf%lf", &ihpnt.pos.x,&ihpnt.pos.y,&ihpnt.pos.z);
+			ihpnt.matid = hor_id;
 			horvector.push_back(ihpnt);
 		}
 	}
