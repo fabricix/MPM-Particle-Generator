@@ -30,6 +30,49 @@ namespace IO {
 
 	//** statics
 
+	static void read_dem_horizonts ()
+	{
+		std::string auxline;
+		
+		// horizon ID (material ID)
+		int hor_id = 0;
+		std::getline(inputfile,auxline);
+		std::sscanf(auxline.c_str(),"%d",&hor_id);
+		
+		// get number of lines
+		int nHpnts = 0;
+		std::getline(inputfile,auxline);
+		std::sscanf(auxline.c_str(),"%d",&nHpnts);
+
+		std::vector<Model::HorizontPoint>& horvector = Model::GetHorizontVector();
+
+		if(nHpnts==0){
+			std::cout<<"ERROR: number of Horizonts is = "<<nHpnts<<"\n";
+			return;
+		}
+
+		for( int i = 0; i < nHpnts; i++ )
+		{
+			std::getline(inputfile,auxline);
+			Model::HorizontPoint ihpnt;
+			std::sscanf(auxline.c_str(),"%lf%lf%lf%d", &ihpnt.pos.x,&ihpnt.pos.y,&ihpnt.pos.z,&ihpnt.matid);
+			horvector.push_back(ihpnt);
+		}
+	}
+
+	static void read_dem_total_horizonts()
+	{
+		std::string auxline;
+		std::getline(inputfile,auxline);
+
+		// read n horizonts
+		int nhor = 0;
+		std::sscanf(auxline.c_str(),"%d",&nhor);
+
+		// put the horizon number in struct
+		Model::SetHorizonNumber(nhor);
+	}
+
 	static void read_dem2mpm()
 	{
 		std::string auxline;
@@ -231,6 +274,18 @@ namespace IO {
 			if (line.find("DEM.TO.MPM")!=std::string::npos)
 			{
 				read_dem2mpm();
+			}
+
+			// total horizonts
+			if (line.find("DEM.NUM.HORIZONT")!=std::string::npos)
+			{
+				read_dem_total_horizonts();
+			}
+
+			// read horizonts
+			if (line.find("DEM.HORIZONT")!=std::string::npos)
+			{
+				read_dem_horizonts();
 			}
 
 			// SMESH to MPM
