@@ -14,20 +14,22 @@ namespace Model
 {
 	enum elemtypes { none, tet4 };
 
+	struct HorizontPoint
+	{
+		Vector3 pos;
+		int matid;
+		HorizontPoint():pos(0.0),matid(0){}
+	};
+
 	struct DemBox
 	{
 		Vector3 pos;
 		double zbase;
 		double dx,dy,dz;
 		int matid;
-		DemBox():pos(0.0),zbase(0.0),dx(0.0),dy(0.0),dz(0.0),matid(0){}
-	};
-
-	struct HorizontPoint
-	{
-		Vector3 pos;
-		int matid;
-		HorizontPoint():pos(0.0),matid(0){}
+		HorizontPoint hpnt;
+		bool is_horizon_active;
+		DemBox():pos(0.0),zbase(0.0),dx(0.0),dy(0.0),dz(0.0),matid(0),hpnt(),is_horizon_active(false){}
 	};
 
 	struct Particle
