@@ -8,7 +8,7 @@
 #ifndef INC_UTILS_H_
 #define INC_UTILS_H_
 
-#include "tensor.h"
+#include "matrix.h"
 namespace Utils
 {
 	double volumeTetrahedonGet(Vector3 p1,Vector3 p2,Vector3 p3,Vector3 p4);
