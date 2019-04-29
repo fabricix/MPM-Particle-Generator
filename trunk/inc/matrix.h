@@ -1,5 +1,5 @@
 /*
- * tensor.h
+ * matrix.h
  *
  *  Created on: Oct 6, 2018
  *      Author: fabricio
@@ -14,19 +14,11 @@
 #include <cassert>
 #include <limits>
 #include <cmath>
+
 #include <math.h>
 
-const double pi=3.1415926535897932384626433832795028841971694;
+const double pi=M_PI;
 const double MACHINE_TOL=std::numeric_limits<double>::epsilon();
-
-/* ---------------------------------------------------------------------------*/
-
-//template<class charT,class traits>
-//   basic_ostream<charT,traits>&tab(basic_ostream<charT,traits>&os){os<<'\t'<<setw(10);return os;}
-//template<class charT,class traits>
-//   basic_ostream<charT,traits>&nwl(basic_ostream<charT,traits>&os){os<<'\n'<<setw(10);return os;}
-
-/* ---------------------------------------------------------------------------*/
 
 inline double Pceil(const double&d){return ceil(d-MACHINE_TOL);}
 
@@ -34,9 +26,6 @@ template<typename T>inline T abs(T a){return(a<0.?-a:a);}
 template<typename T>inline T sgn(T a){return(a<0.?-1.:1.);}
 template<bool>struct Assert;
 template<>struct Assert<true>{}; // Assert<(1==2)>();
-
-//template<typename T>T max(const vector<T>&v){double m=v[0];for(unsigned i=0;i<v.size();i+=1)m=(v[i]>m?v[i]:m);return m;}
-//template<typename T>T min(const vector<T>&v){double m=v[0];for(unsigned i=0;i<v.size();i+=1)m=(v[i]<m?v[i]:m);return m;}
 
 struct Matrix2;
 struct Matrix3;
@@ -522,8 +511,6 @@ inline Vector3 PincipalValuesGet(const Matrix3&s)
    return  principalValues(s);
 }
 
-
-// left-to-right operators where order matters -->
 inline double  Vector2::inner(const Vector2&v)const{return x*v.x+y*v.y;}
 inline double  Vector3::inner(const Vector3&v)const{return x*v.x+y*v.y+z*v.z;}
 inline Vector2 Vector2::inner(const Matrix2&m)const{return Vector2(m.xx*x+m.yx*y,m.xy*x+m.yy*y);}
