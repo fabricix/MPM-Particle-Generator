@@ -2,13 +2,14 @@
  * tensor.cpp
  *
  *  Created on: Oct 6, 2018
- *      Author: fabricio
+ *      Author: fabricio fernandez <fabricio.hmf@gmail.com>
  */
 
 #include <iostream>
 #include <float.h>
 #include <math.h>
-#include "tensor.h"
+
+#include "matrix.h"
 
 
 static void JacobiCyclicMethod(double eigenvalues[], double *eigenvectors, double *A, int n)
