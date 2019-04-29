@@ -5,7 +5,7 @@
  *      Author: fabricio
  */
 
-#include "tensor.h"
+#include "matrix.h"
 
 namespace Utils
 {
