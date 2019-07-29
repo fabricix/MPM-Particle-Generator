@@ -195,6 +195,14 @@ namespace ParaView
 		}
 		partfile <<"\t\t\t\t</DataArray>\n";
 
+		// Zo
+		partfile <<"\t\t\t\t<DataArray type=\"Float32\" Name=\"Zo\" Format=\"ascii\">\n";
+		for (int i = 0; i < ngpoints; ++i){
+			partfile<<std::scientific<<"\t\t\t\t\t"<<particles[i].pos.z<<"\n";
+		}
+		partfile <<"\t\t\t\t</DataArray>\n";
+
+
 		partfile <<"\t\t\t</PointData>\n";
 
 		// cells -->

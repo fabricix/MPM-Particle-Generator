@@ -142,10 +142,6 @@ void eigen(Matrix3 s, Vector3& eival, Matrix3& eivec)
 	eivec.zx = eigenvectors[2][0];
 	eivec.zy = eigenvectors[2][1];
 	eivec.zz = eigenvectors[2][2];
-
-	// std::cout<<"1="<<eival.x<<", n1=("<<eivec.xx<<","<<eivec.yx<<","<<eivec.zx<<")\n";
-	// std::cout<<"2="<<eival.y<<", n1=("<<eivec.xy<<","<<eivec.yy<<","<<eivec.zy<<")\n";
-	// std::cout<<"3="<<eival.z<<", n1=("<<eivec.xz<<","<<eivec.yz<<","<<eivec.zz<<")\n";
 }
 
 void eigen(Matrix3 s, Vector3& eival,Vector3& n1,Vector3& n2,Vector3& n3)
@@ -266,7 +262,6 @@ void eigen(Matrix3 s, Vector3& eival,Vector3& n1,Vector3& n2,Vector3& n3)
 			n3.z = eigenvectors[2][0];
 		}
 	}
-	// std::cout<<val1<<","<<val2<<","<<val3<<"\n";
 
 	eival.x = val1;
 	eival.y = val2;

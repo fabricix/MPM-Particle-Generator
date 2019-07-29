@@ -32,6 +32,9 @@ namespace IO {
 
 	static void read_dem_horizonts()
 	{
+	    Vector3 pmin, pmax; 
+	    Model::BoundingBoxDemGet(pmin,pmax);
+
 		std::vector<std::vector<Model::HorizontPoint> >& horvector = Model::GetHorizontVector();
 
 		for (int ih = 0; ih <Model::GetHorizonNumber(); ++ih)
@@ -48,9 +51,10 @@ namespace IO {
 			std::getline(inputfile,auxline);
 			std::sscanf(auxline.c_str(),"%d",&nHpnts);
 
-			if(nHpnts==0){
-			std::cout<<"ERROR: number of Horizonts is = "<<nHpnts<<"\n";
-			return;
+			if(nHpnts==0)
+			{
+				std::cout<<"ERROR: number of Horizonts is = "<<nHpnts<<"...\n";
+				return;
 			}
 			
 			std::vector<Model::HorizontPoint> hvec;
@@ -60,7 +64,16 @@ namespace IO {
 				Model::HorizontPoint ihpnt;
 				std::sscanf(auxline.c_str(),"%lf%lf%lf", &ihpnt.pos.x,&ihpnt.pos.y,&ihpnt.pos.z);
 				ihpnt.matid = hor_id;
-				hvec.push_back(ihpnt);
+
+				// DEM limits check
+				if ( ihpnt.pos.x>=pmin.x && ihpnt.pos.x<=pmax.x)
+				{
+					if (ihpnt.pos.y>=pmin.y && ihpnt.pos.y<=pmax.y)
+					{
+						hvec.push_back(ihpnt);
+					}
+				}
+
 			}
 			
 			horvector.push_back(hvec);
@@ -80,25 +93,66 @@ namespace IO {
 		Model::SetHorizonNumber(nhor);
 	}
 
-	static void read_dem2mpm()
+	static void compute_dem_limits()
 	{
+		std::vector<Model::DemBox>& demvector = Model::GetDemVector();
+
+		Vector3 pmin;
+		Vector3 pmax;
+
+		for( int i = 0; i < demvector.size(); i++ )
+		{	
+			// ibox
+			Model::DemBox ibox = demvector.at(i);
+
+			// first seed
+			if (i == 0)
+			{
+				pmin = ibox.pos;
+				pmax = ibox.pos;
+			}
+
+			// x limits
+			if (ibox.pos.x<pmin.x) { pmin.x = ibox.pos.x;}
+			if (ibox.pos.x>pmax.x) { pmax.x = ibox.pos.x;}
+
+			// y limits
+			if (ibox.pos.y<pmin.y) { pmin.y = ibox.pos.y;}
+			if (ibox.pos.y>pmax.y) { pmax.y = ibox.pos.y;}
+		}
+
+		// print relevant values
+		std::cout<<"bounding box of DEM is:"<<std::endl;
+		std::cout<<"point min ("<<pmin.x<<","<<pmin.y<<")"<<std::endl;
+		std::cout<<"point pmax("<<pmax.x<<","<<pmax.y<<")"<<std::endl;
+
+		// set limits
+		Model::BoundingBoxDemSet(pmin,pmax);
+	}
+
+	static void read_dem2mpm()
+	{	
+		// line get
 		std::string auxline;
 		std::getline(inputfile,auxline);
 		
-		// get lines number
+		// total lines get
 		int nbox = 0;
 		std::sscanf(auxline.c_str(),"%d",&nbox);
 		
-		// read lines
+		// read line
 		std::getline(inputfile,auxline);
 
+		// dem data structure get
 		std::vector<Model::DemBox>& demvector = Model::GetDemVector();
 
+		// number of box checks
 		if(nbox==0){
-			std::cout<<"ERROR: number of DEM box is = "<<nbox<<"\n";
+			std::cout<<"ERROR: number of DEM box is = "<<nbox<<"...\n";
 			return;
 		}
 
+		// data structure fills
 		for( int i = 0; i < nbox; i++ )
 		{
 			Model::DemBox ibox;
@@ -106,6 +160,9 @@ namespace IO {
 			demvector.push_back(ibox);
 			std::getline(inputfile,auxline);
 		}
+
+		// compute the limits of the model
+		compute_dem_limits();
 	}
 
 	static void read_smesh_points()

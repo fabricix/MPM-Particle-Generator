@@ -28,7 +28,6 @@ namespace Model
 		double dx,dy,dz;
 		int matid;
 		std::vector<HorizontPoint> hpnt;
-		//std::vector<bool> is_horizon_active;
 		DemBox():pos(0.0),zbase(0.0),dx(0.0),dy(0.0),dz(0.0),matid(0){}
 	};
 
@@ -72,6 +71,13 @@ namespace Model
 		std::vector<Vector3> gnodes;	// grid nodes
 	};
 
+	struct BoundingBoxDem
+	{
+		Vector3 min;
+		Vector3 max;
+		BoundingBoxDem():min(0.0),max(0){}
+	};
+
 	std::vector<DemBox>& GetDemVector();
 	std::vector<Particle>& GetParticleVector();
 	std::vector<mshPoint>& GetmshPointsVector();
@@ -92,6 +98,9 @@ namespace Model
 	// horizonts	
 	void SetHorizonNumber(int nhor);
 	int  GetHorizonNumber( );
+
+	void BoundingBoxDemSet(Vector3 pmin,Vector3 pmax);
+	void BoundingBoxDemGet(Vector3& lmin,Vector3& lmax);
 
 }
 

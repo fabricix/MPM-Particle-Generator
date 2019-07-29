@@ -41,6 +41,10 @@ namespace Model
 	void SetHorizonNumber(int nhor){nHorizonts = nhor;}
 	int  GetHorizonNumber( ){return nHorizonts;}
 
+	static BoundingBoxDem dembndbox;
+	void BoundingBoxDemSet(Vector3 pmin,Vector3 pmax){dembndbox.min=pmin; dembndbox.max=pmax;}
+	void BoundingBoxDemGet(Vector3& lmin,Vector3& lmax){lmin=dembndbox.min; lmax=dembndbox.max; }
+
 	static void mapHorizonPoints2DemPoints()
 	{	
 		for (size_t ih = 0; ih < HorizontPointVector.size(); ++ih)
@@ -48,7 +52,7 @@ namespace Model
 			for (size_t i = 0; i < HorizontPointVector.at(ih).size(); ++i)
 			{
 				int dem_index = -1;
-				double mindist = 1e10;	
+				double mindist = 1e300;	
 				Vector3 ihpos = HorizontPointVector.at(ih).at(i).pos;
 
 				for (size_t j = 0; j < DemBoxVector.size(); ++j)
