@@ -1,0 +1,1 @@
+g++ -I ../inc/ ../src/utils.cpp ../src/paraview.cpp ../src/model.cpp ../src/matrix.cpp ../src/main.cpp ../src/io.cpp -o mpm-generator
