@@ -20,13 +20,6 @@
 const double pi=M_PI;
 const double MACHINE_TOL=std::numeric_limits<double>::epsilon();
 
-inline double Pceil(const double&d){return ceil(d-MACHINE_TOL);}
-
-template<typename T>inline T abs(T a){return(a<0.?-a:a);}
-template<typename T>inline T sgn(T a){return(a<0.?-1.:1.);}
-template<bool>struct Assert;
-template<>struct Assert<true>{}; // Assert<(1==2)>();
-
 struct Matrix2;
 struct Matrix3;
 

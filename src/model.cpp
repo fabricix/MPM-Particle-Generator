@@ -121,7 +121,7 @@ namespace Model
 				prt1.pos.y = ibox.pos.y-(dy*0.25);
 				prt1.pos.z = iz;
 				prt1.vol = (dx*dy*dz)/8.0;
-				prt1.lp  = (meanL/ppc)*0.5;
+				prt1.lp  = (meanL/ppc);
 				prt1.matid = matid;
 				pid++;
 				prt1.id = pid; 
@@ -131,7 +131,7 @@ namespace Model
 				prt2.pos.y = ibox.pos.y-(dy*0.25);
 				prt2.pos.z = iz;
 			    prt2.vol = (dx*dy*dz)/8.0;
-				prt2.lp  = (meanL/ppc)*0.5;
+				prt2.lp  = (meanL/ppc);
 				prt2.matid = matid;
 				pid++;
 				prt2.id = pid; 
@@ -141,7 +141,7 @@ namespace Model
 				prt3.pos.y = ibox.pos.y+(dy*0.25);
 				prt3.pos.z = iz;
 			    prt3.vol = (dx*dy*dz)/8.0;
-				prt3.lp  = (meanL/ppc)*0.5;
+				prt3.lp  = (meanL/ppc);
 				prt3.matid = matid;
 				pid++;
 				prt3.id = pid; 
@@ -151,7 +151,7 @@ namespace Model
 				prt4.pos.y = ibox.pos.y+(dy*0.25);
 				prt4.pos.z = iz;
 				prt4.vol = (dx*dy*dz)/8.0;
-				prt4.lp  = (meanL/ppc)*0.5;
+				prt4.lp  = (meanL/ppc);
 				prt4.matid = matid;
 				pid++;
 				prt4.id = pid; 
@@ -206,7 +206,7 @@ namespace Model
 				prt1.pos.y = ibox.pos.y-(dy*0.25);
 				prt1.pos.z = iz;
 				prt1.vol = (dx*dy*dz)/8.0;
-				prt1.lp  = (meanL/ppc)*0.5;
+				prt1.lp  = (meanL/ppc);
 				prt1.matid = matid;
 				pid++;
 				prt1.id = pid; 
@@ -216,7 +216,7 @@ namespace Model
 				prt2.pos.y = ibox.pos.y-(dy*0.25);
 				prt2.pos.z = iz;
 			    prt2.vol = (dx*dy*dz)/8.0;
-				prt2.lp  = (meanL/ppc)*0.5;
+				prt2.lp  = (meanL/ppc);
 				prt2.matid = matid;
 				pid++;
 				prt2.id = pid; 
@@ -226,7 +226,7 @@ namespace Model
 				prt3.pos.y = ibox.pos.y+(dy*0.25);
 				prt3.pos.z = iz;
 			    prt3.vol = (dx*dy*dz)/8.0;
-				prt3.lp  = (meanL/ppc)*0.5;
+				prt3.lp  = (meanL/ppc);
 				prt3.matid = matid;
 				pid++;
 				prt3.id = pid; 
@@ -236,7 +236,7 @@ namespace Model
 				prt4.pos.y = ibox.pos.y+(dy*0.25);
 				prt4.pos.z = iz;
 				prt4.vol = (dx*dy*dz)/8.0;
-				prt4.lp  = (meanL/ppc)*0.5;
+				prt4.lp  = (meanL/ppc);
 				prt4.matid = matid;
 				pid++;
 				prt4.id = pid; 
@@ -339,7 +339,7 @@ namespace Model
 				prti.pos.y = (L1[ip]*x31 + L2[ip]*x32 + L3[ip]*x33 + L4[ip]*x34);
 				prti.pos.z = (L1[ip]*x41 + L2[ip]*x42 + L3[ip]*x43 + L4[ip]*x44);
 				prti.vol   = pvol;
-				prti.lp    = (meanL/ppc)*0.5;
+				prti.lp    = (meanL/ppc);
 				prti.matid = matid;
 				pid++;
 				prti.id = pid; 
@@ -431,7 +431,7 @@ namespace Model
 				Particle prt1;
 				prt1.pos   = pt1;
 				prt1.vol   = pvol;
-				prt1.lp    = (meanL/ppc)*0.5;
+				prt1.lp    = (meanL/ppc);
 				prt1.matid = matid;
 				pid++;
 				prt1.id = pid; 
@@ -440,7 +440,7 @@ namespace Model
 				Particle prt2;
 				prt2.pos   = pt2;
 				prt2.vol   = pvol;
-				prt2.lp    = (meanL/ppc)*0.5;
+				prt2.lp    = (meanL/ppc);
 				prt2.matid = matid;
 				pid++;
 				prt2.id = pid; 
@@ -449,7 +449,7 @@ namespace Model
 				Particle prt3;
 				prt3.pos   = pt3;
 				prt3.vol   = pvol;
-				prt3.lp    = (meanL/ppc)*0.5;
+				prt3.lp    = (meanL/ppc);
 				prt3.matid = matid;
 				pid++;
 				prt3.id = pid; 
@@ -458,7 +458,7 @@ namespace Model
 				Particle prt4;
 				prt4.pos   = pt4;
 				prt4.vol   = pvol;
-				prt4.lp    = (meanL/ppc)*0.5;
+				prt4.lp    = (meanL/ppc);
 				prt4.matid = matid;
 				pid++;
 				prt4.id = pid; 
@@ -467,7 +467,7 @@ namespace Model
 				Particle prt5;
 				prt5.pos   = pt5;
 				prt5.vol   = pvol;
-				prt5.lp    = (meanL/ppc)*0.5;
+				prt5.lp    = (meanL/ppc);
 				prt5.matid = matid;
 				pid++;
 				prt5.id = pid; 
@@ -476,7 +476,7 @@ namespace Model
 				Particle prt6;
 				prt6.pos   = pt6;
 				prt6.vol   = pvol;
-				prt6.lp    = (meanL/ppc)*0.5;
+				prt6.lp    = (meanL/ppc);
 				prt6.matid = matid;
 				pid++;
 				prt6.id = pid; 
@@ -485,7 +485,7 @@ namespace Model
 				Particle prt7;
 				prt7.pos   = pt7;
 				prt7.vol   = pvol;
-				prt7.lp    = (meanL/ppc)*0.5;
+				prt7.lp    = (meanL/ppc);
 				prt7.matid = matid;
 				pid++;
 				prt7.id = pid; 
@@ -494,7 +494,7 @@ namespace Model
 				Particle prt8;
 				prt8.pos   = pt8;
 				prt8.vol   = pvol;
-				prt8.lp    = (meanL/ppc)*0.5;
+				prt8.lp    = (meanL/ppc);
 				prt8.matid = matid;
 				pid++;
 				prt8.id = pid; 

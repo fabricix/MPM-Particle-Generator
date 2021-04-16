@@ -272,11 +272,11 @@ namespace IO {
 	static void init_file_name(int argc, char **argv)
 	{
 		// path set
-		if(argc>0){
-			std::string argv_str(argv[1]);
-			std::string base = argv_str.substr(0, argv_str.find_last_of("/"));
-			path = base;
-		}
+		// if(argc>0){
+		// 	//std::string argv_str(argv[1]);
+		// 	//std::string base = argv_str.substr(0, argv_str.find_last_of("/"));
+		// 	//path = base;
+		// }
 
 		// name of file to process
 		if (argc > 1) {
@@ -288,7 +288,8 @@ namespace IO {
 	    }
 
 		// name and path of output file
-		out_fname = "/mpm.part";
+		//out_fname = "/mpm.part";
+		out_fname = "mpm.part";
 		path_out_fname = path + out_fname;
 
 	}

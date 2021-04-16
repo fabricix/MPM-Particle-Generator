@@ -32,7 +32,7 @@ namespace ParaView
 
 		// open the file
 		std::ofstream gridfile;
-		std::string fname = IO::pathGet() + "/grid" + ".vtu";
+		std::string fname = IO::pathGet() + "grid" + ".vtu";
 		gridfile.open(fname.c_str());
 		gridfile.precision(4);
 
@@ -112,7 +112,7 @@ namespace ParaView
 
 		// open the file
 		std::ofstream gridfile;
-		std::string fname = IO::pathGet() + "/grid-cells" + ".vtk";
+		std::string fname = IO::pathGet() + "grid-cells" + ".vtk";
 		gridfile.open(fname.c_str());
 		gridfile.precision(4);
 
@@ -152,7 +152,7 @@ namespace ParaView
 
 		// open the file
 		std::ofstream partfile;
-		std::string fname = IO::pathGet() + "/particles" + ".vtu";
+		std::string fname = IO::pathGet() + "particles" + ".vtu";
 		partfile.open(fname.c_str());
 		partfile.precision(4);
 
