@@ -13,7 +13,7 @@ The generator allows to create numerical MPM models based on the contour lines o
 The program can be compiled using an standard C++ compiler. To compile it using GCC compiler run the script in the compile-gcc directory:
 
 ```bash
-/compile-gcc/compile-gcc.sh
+compile-gcc/compile-gcc.sh
 ```
 
 # Examples
@@ -25,7 +25,7 @@ There are two examples: A sine wave model and the Daguangbao Landslide model.
 The file input is located in the example folder:
 
 ```bash
-/examples/example-1-sinewave/sine-wave.dat
+examples/example-1-sinewave/sine-wave.dat
 ```
 
 To run this model go to folder and run the generator:
@@ -39,7 +39,7 @@ mpm-generator sine-wave.dat
 The file input is located in the example folder:
 
 ```bash
-/examples/example-2-daguangbao/daguangbao.dat
+examples/example-2-daguangbao/daguangbao.dat
 ```
 
 To run this model go to folder and run the generator:
