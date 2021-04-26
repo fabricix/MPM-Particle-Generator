@@ -58,4 +58,4 @@ After the generator execute the input file a vtu file is created. This file can 
 
 # Cite this code as
 
-<a href="https://zenodo.org/badge/latestdoi/184103201"><img src="https://zenodo.org/badge/184103201.svg" alt="DOI"></a>
+Fernández, F., do Amaral Vargas, E. & Quadros Velloso, R. A 3D discretization procedure for the material point method (MPM). Comp. Part. Mech. 7, 725–733 (2020). https://doi.org/10.1007/s40571-019-00303-7
