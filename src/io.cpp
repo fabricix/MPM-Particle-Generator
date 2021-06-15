@@ -8,7 +8,10 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+using std::to_string;
+
 #include <vector>
+using std::vector;
 #include <stdio.h>
 
 #include "io.h"
@@ -325,6 +328,7 @@ namespace IO {
 		Model::initGrid(lim_min,lim_max,celldim);
 	}
 
+
 	//** globals
 
 	void ReadInputFile(int argc, char **argv)
@@ -364,7 +368,13 @@ namespace IO {
 			{
 				read_grid();
 			}
-
+			
+			// Write particle in separate files
+			if (line.find("PARTICLES.SEPARATE.FILES")!=std::string::npos)
+			{
+				std::cout<<"Particle will be written in separated files\n";
+				Model::setWriteParticlesSeparateFiles(true);
+			}
 		}
 		// close the file
 		if(inputfile.is_open()) inputfile.close();
@@ -372,33 +382,89 @@ namespace IO {
 
 	void WriteOutputFile()
 	{
-		using namespace std;
-		outfile.open(path_out_fname.c_str(), fstream::out);
-		
 		// test
 		vector<Model::Particle>& parvec = Model::GetParticleVector();
 
-		// header for plot
-		outfile<<"id x y z vol lp matid\n";
-		outfile<<"%PARTICLES\n";
-		outfile<<parvec.size()<<"\n";
-
-		for (size_t i = 0; i < parvec.size(); ++i)
+		if (!Model::getWriteParticlesSeparateFiles())
 		{
-			outfile<<parvec.at(i).id<<" ";
-			outfile<<parvec.at(i).pos.x<<" ";
-			outfile<<parvec.at(i).pos.y<<" ";
-			outfile<<parvec.at(i).pos.z<<" ";
-			outfile<<parvec.at(i).vol<<" ";
-			outfile<<parvec.at(i).lp<<" ";
-			outfile<<parvec.at(i).matid<<"\n";
+			using namespace std;
+			outfile.open(path_out_fname.c_str(), fstream::out);
+
+			// header
+			outfile<<"id x y z vol lp matid\n";
+			outfile<<"%PARTICLES\n";
+			outfile<<parvec.size()<<"\n";
+
+			for (size_t i = 0; i < parvec.size(); ++i)
+			{
+				outfile<<parvec.at(i).id<<" ";
+				outfile<<parvec.at(i).pos.x<<" ";
+				outfile<<parvec.at(i).pos.y<<" ";
+				outfile<<parvec.at(i).pos.z<<" ";
+				outfile<<parvec.at(i).vol<<" ";
+				outfile<<parvec.at(i).lp<<" ";
+				outfile<<parvec.at(i).matid<<"\n";
+			}
+
+			cout<<"writing "<<parvec.size()<<" particles...\n";
+			cout<<"please see the output file, "<<out_fname.c_str()<<"...\n";
+
+			// close the file
+			if(outfile.is_open()) outfile.close();
 		}
+		else
+		{
+			// get the number of materials
+			int nmat = Model::GetHorizontVector().size()+2;
 
-		cout<<"writing "<<parvec.size()<<" particles...\n";
-		cout<<"please see the output file, "<<out_fname.c_str()<<"...\n";
+			for (size_t imat = 1; imat < nmat; ++imat)
+			{
+				using namespace std;
+				string mat_number="mat_"+to_string(imat)+"_";
+				string file_name_mat=mat_number+path_out_fname;
 
-		// close the file
-		if(outfile.is_open()) outfile.close();
+				outfile.open(file_name_mat, fstream::out);
+
+				// header
+				outfile<<"id x y z vol lp matid\n";
+				outfile<<"%PARTICLES_MATERIAL_"<<imat<<"\n";
+
+				// find total particles
+				int counter=0;
+
+				for (size_t i = 0; i < parvec.size(); ++i)
+				{
+					if (parvec.at(i).matid==imat)
+					{
+						counter++;	
+					}
+				}
+
+				outfile<<counter<<"\n";
+
+				// write all particles in the file
+
+				for (size_t i = 0; i < parvec.size(); ++i)
+				{
+					if (parvec.at(i).matid==imat)
+					{
+						outfile<<parvec.at(i).id<<" ";
+						outfile<<parvec.at(i).pos.x<<" ";
+						outfile<<parvec.at(i).pos.y<<" ";
+						outfile<<parvec.at(i).pos.z<<" ";
+						outfile<<parvec.at(i).vol<<" ";
+						outfile<<parvec.at(i).lp<<" ";
+						outfile<<parvec.at(i).matid<<"\n";
+					}
+				}
+
+				cout<<"writing "<<counter<<" particles of material "<<imat<<"\n";
+				cout<<"please see the output file, "<<file_name_mat<<"...\n";
+
+				// close the file
+				if(outfile.is_open()) outfile.close();
+			}
+		}
 
 		// write the grid
 		ParaView::writegrid();

@@ -45,6 +45,11 @@ namespace Model
 	void BoundingBoxDemSet(Vector3 pmin,Vector3 pmax){dembndbox.min=pmin; dembndbox.max=pmax;}
 	void BoundingBoxDemGet(Vector3& lmin,Vector3& lmax){lmin=dembndbox.min; lmax=dembndbox.max; }
 
+	bool SEPARATE_FILES = false;
+
+	void setWriteParticlesSeparateFiles(bool value){ SEPARATE_FILES = value; }
+	bool getWriteParticlesSeparateFiles(){return SEPARATE_FILES;}
+
 	static void mapHorizonPoints2DemPoints()
 	{	
 		for (size_t ih = 0; ih < HorizontPointVector.size(); ++ih)

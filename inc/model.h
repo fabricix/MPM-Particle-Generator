@@ -102,6 +102,8 @@ namespace Model
 	void BoundingBoxDemSet(Vector3 pmin,Vector3 pmax);
 	void BoundingBoxDemGet(Vector3& lmin,Vector3& lmax);
 
+	void setWriteParticlesSeparateFiles(bool value);
+	bool getWriteParticlesSeparateFiles();
 }
 
 #endif /* INC_MODEL_H_ */
