@@ -14,6 +14,8 @@ namespace Model
 {
 	enum elemtypes { none, tet4 };
 
+	enum MapHorizont{ HORIZONT_TO_DEM, DEM_TO_HORIZONT };
+
 	struct HorizontPoint
 	{
 		Vector3 pos;
@@ -104,6 +106,9 @@ namespace Model
 
 	void setWriteParticlesSeparateFiles(bool value);
 	bool getWriteParticlesSeparateFiles();
+
+	// horizont map set
+	void setHorizontMap(Model::MapHorizont type);
 }
 
 #endif /* INC_MODEL_H_ */

@@ -47,10 +47,14 @@ namespace Model
 
 	bool SEPARATE_FILES = false;
 
+	MapHorizont horizontMap = MapHorizont::HORIZONT_TO_DEM;
+	
+	void setHorizontMap(Model::MapHorizont type){horizontMap=type;}
+
 	void setWriteParticlesSeparateFiles(bool value){ SEPARATE_FILES = value; }
 	bool getWriteParticlesSeparateFiles(){return SEPARATE_FILES;}
 
-	static void mapHorizonPoints2DemPoints()
+	static void mapHorizon2DEMPoints()
 	{	
 		for (size_t ih = 0; ih < HorizontPointVector.size(); ++ih)
 		{
@@ -77,6 +81,55 @@ namespace Model
 		}
 	}
 
+	static void mapDEM2HorizonPoints()
+	{	
+		// for each dem 
+		for (size_t idem = 0; idem < DemBoxVector.size(); ++idem)
+		{	
+			// get the position
+			Vector3 dem_pos = DemBoxVector.at(idem).pos;
+
+			// search in each horizont
+			for (size_t hor = 0; hor < HorizontPointVector.size(); ++hor)
+			{
+				double mindist = 1e300;
+				int target_hor_pnt = -1;
+
+				// the closer horizont point
+				for (size_t hor_pnt = 0; hor_pnt < HorizontPointVector.at(hor).size(); ++hor_pnt)
+				{
+					
+					Vector3 hor_pnt_pos = HorizontPointVector.at(hor).at(hor_pnt).pos;
+
+					double dist = std::sqrt(std::pow((dem_pos.x-hor_pnt_pos.x),2.0)+std::pow((dem_pos.y-hor_pnt_pos.y),2.0));
+
+					if (dist<=mindist)
+					{
+						mindist = dist;
+						target_hor_pnt = hor_pnt;
+					}
+				}
+
+				if (target_hor_pnt>=0)
+				{
+					DemBoxVector.at(idem).hpnt.push_back(HorizontPointVector.at(hor).at(target_hor_pnt));
+				}
+			}
+		}
+	}
+
+	void mapHorizonPoints2DemPoints() {
+
+		if (horizontMap==MapHorizont::HORIZONT_TO_DEM)
+		{
+			mapHorizon2DEMPoints();
+		}
+		if (horizontMap==MapHorizont::DEM_TO_HORIZONT)
+		{
+			mapDEM2HorizonPoints();
+		}
+	}
+	
 	static int inCell(Vector3 pos)
 	{
 		int i = floor((pos.x-Grid.regionBegin.x)/Grid.dx+Grid.Ng);

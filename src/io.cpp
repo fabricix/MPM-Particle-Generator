@@ -375,6 +375,21 @@ namespace IO {
 				std::cout<<"Particle will be written in separated files\n";
 				Model::setWriteParticlesSeparateFiles(true);
 			}
+			
+			// map horizont to dem points
+			if (line.find("MAP.HORIZONT.TO.DEM")!=std::string::npos)
+			{
+				std::cout<<"Mapping horizont to dem points\n";
+				Model::setHorizontMap(Model::MapHorizont::HORIZONT_TO_DEM);
+			}
+
+			// map dem to horizont points
+			if (line.find("MAP.DEM.TO.HORIZONT")!=std::string::npos)
+			{
+				std::cout<<"Mapping dem to horizont points\n";
+				Model::setHorizontMap(Model::MapHorizont::DEM_TO_HORIZONT);
+			}
+
 		}
 		// close the file
 		if(inputfile.is_open()) inputfile.close();
