@@ -6,6 +6,8 @@ The generator allows to create numerical MPM models based on the contour lines o
 - finite element meshes are not required;
 - the heterogeneities are defined by the DEM data of each material;
 
+![Alt text](examples/workflow/workflow.png?raw=true "Workflow of the MPM-Generator")
+
 # Compiling
 
 The program can be compiled using an standard C++ compiler. To compile it using GCC compiler run the script in the compile-gcc directory:
