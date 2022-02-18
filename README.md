@@ -34,6 +34,10 @@ To run this model go to folder and run the generator:
 mpm-generator sine-wave.dat
 ```
 
+The mpm model of the Sine wave results in:
+
+![Alt text](examples/example-1-sinewave/sine-wave-mpm-model.png?raw=true "Sine-wave mpm model")
+
 ## The Daguangbao Landslide example
 
 The file input is located in the example folder:
@@ -47,6 +51,10 @@ To run this model go to folder and run the generator:
 ```bash
 mpm-generator daguangbao.dat
 ```
+
+The mpm model of the Daguangbao landslide results in:
+
+![Alt text](examples/example-2-daguangbao/daguangbao-mpm-model.png?raw=true "Daguangbao mpm model")
 
 ## Results visualization
 
