@@ -251,7 +251,8 @@ namespace Model
 
 			Particle prt1,prt2,prt3,prt4;
 			do
-			{	
+			{
+				// set the correct material for the four particles	
 				for (size_t ih = 0; ih < DemBoxVector.at(i).hpnt.size(); ++ih)
 				{
 					if (iz > DemBoxVector.at(i).hpnt.at(ih).pos.z)

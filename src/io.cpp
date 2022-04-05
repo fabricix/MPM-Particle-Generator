@@ -54,9 +54,17 @@ namespace IO {
 			std::getline(inputfile,auxline);
 			std::sscanf(auxline.c_str(),"%d",&nHpnts);
 
+			// verify the line size
+			if(auxline.empty())
+			{
+				std::cout<<"ERROR: reading an empty line ...\n";
+				std::cout<<"ERROR: check the number of Horizons in the input file ...\n";
+				return;
+			}
+
 			if(nHpnts==0)
 			{
-				std::cout<<"ERROR: number of Horizonts is = "<<nHpnts<<"...\n";
+				std::cout<<"ERROR: number of Horizons is = "<<nHpnts<<"...\n";
 				return;
 			}
 			
@@ -88,11 +96,11 @@ namespace IO {
 		std::string auxline;
 		std::getline(inputfile,auxline);
 
-		// read n horizonts
+		// read n horizons
 		int nhor = 0;
 		std::sscanf(auxline.c_str(),"%d",&nhor);
 
-		// put the horizon number in struct
+		// put the horizon number in structure
 		Model::SetHorizonNumber(nhor);
 	}
 
@@ -103,7 +111,7 @@ namespace IO {
 		Vector3 pmin;
 		Vector3 pmax;
 
-		for( int i = 0; i < demvector.size(); i++ )
+		for( size_t i = 0; i < demvector.size(); i++ )
 		{	
 			// ibox
 			Model::DemBox ibox = demvector.at(i);
@@ -155,6 +163,8 @@ namespace IO {
 			return;
 		}
 
+		bool flag_null_material = false;
+
 		// data structure fills
 		for( int i = 0; i < nbox; i++ )
 		{
@@ -162,6 +172,16 @@ namespace IO {
 			std::sscanf(auxline.c_str(),"%lf%lf%lf%lf%lf%lf%lf%d", &ibox.pos.x,&ibox.pos.y,&ibox.pos.z,&ibox.zbase,&ibox.dx,&ibox.dy,&ibox.dz,&ibox.matid);
 			demvector.push_back(ibox);
 			std::getline(inputfile,auxline);
+
+			if(ibox.matid<=0 && !flag_null_material)
+			{
+				flag_null_material=true;
+			}
+		}
+
+		if(flag_null_material)
+		{
+			std::cout<<"Warning: null or negative material id was found in DEM box definition...\n";
 		}
 
 		// compute the limits of the model
@@ -432,7 +452,7 @@ namespace IO {
 			// get the number of materials
 			int nmat = Model::GetHorizontVector().size()+2;
 
-			for (size_t imat = 1; imat < nmat; ++imat)
+			for (int imat = 1; imat < nmat; ++imat)
 			{
 				using namespace std;
 				string mat_number="mat_"+to_string(imat)+"_";
