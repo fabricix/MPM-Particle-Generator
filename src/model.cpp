@@ -9,8 +9,8 @@
 #include <iostream>
 #include <vector>
 
-#include <model.h>
-#include <utils.h>
+#include "model.h"
+#include "utils.h"
 
 namespace Model
 {
@@ -312,6 +312,7 @@ namespace Model
 		DemBoxVector.clear();
 	}
 	
+#if 0
 	static void MpmModel_SMESH_Element_Mapping()
 	{ 
 		if(mshElementsVector.size()==0) { return; }
@@ -406,7 +407,8 @@ namespace Model
 			}
 		}
 	}
-
+#endif
+	
 	static void AddParticlesInActiveCellGrid(std::vector<bool> cellid,std::vector<int>materialcell)
 	{
 		ParticleVector.clear();
@@ -575,8 +577,8 @@ namespace Model
 		if(mshElementsVector.size()==0) { return; }
 
 		ParticleVector.clear();
-		int pid = 0;
-		double ppc = 2.0;
+		//int pid = 0;
+		//double ppc = 2.0;
 		double nparticles = 5;
 
 		std::vector<Vector3> coord;
@@ -611,8 +613,8 @@ namespace Model
 			}
 
 			// volume of the element and particles
-			double vol  = Utils::volumeTetrahedonGet(coord[0],coord[1],coord[2],coord[3]);
-			double pvol = vol/nparticles;
+			// double vol  = Utils::volumeTetrahedonGet(coord[0],coord[1],coord[2],coord[3]);
+			// double pvol = vol/nparticles;
 
 			// particle lenght for load and pressure conditions
 			Vector3 L;
@@ -643,7 +645,7 @@ namespace Model
 			double x44 = coord[3].z;
 			
 			// mat id - TODO
-			int matid = 1;
+			// int matid = 1;
 
 			Particle prti;
 			
