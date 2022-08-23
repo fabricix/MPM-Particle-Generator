@@ -10,10 +10,16 @@ The generator allows to create numerical MPM models based on the contour lines o
 
 # Compiling
 
-The program can be compiled using an standard C++ compiler. To compile it using GCC compiler run the script in the compile-gcc directory:
+The program can be compiled using GNU make utility. The makefile is inside the `/make` folder. To compile the executable file, go to the folder `/make` and run: 
 
 ```bash
-compile-gcc/compile-gcc.sh
+make 
+```
+
+To delete the executable file and all the object files from the directory, type:
+
+```bash
+make clean 
 ```
 
 # Examples
