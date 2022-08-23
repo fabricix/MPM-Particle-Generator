@@ -10,7 +10,7 @@ The generator allows to create numerical MPM models based on the contour lines o
 
 # Compiling
 
-The program can be compiled using GNU make utility. The makefile is inside the `/make` folder. To compile the executable file, go to the folder `/make` and run: 
+The program can be compiled using GNU make utility. The makefile is inside the `/make` folder. To create the executable file, go to the folder `/make` and run: 
 
 ```bash
 make 
