@@ -35,6 +35,9 @@ paraview.o: ../src/paraview.cpp ../inc/io.h ../inc/model.h
 utils.o: ../src/utils.cpp ../inc/matrix.h
 	$(CC) $(CFLAGS) $(INC) -c ../src/utils.cpp
 
+# this target is not associated with any file
+.PHONY: clean
+
 # clean
 clean :
 	rm MPM-Particle-Generator $(objects)
