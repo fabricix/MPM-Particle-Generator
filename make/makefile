@@ -1,20 +1,20 @@
-# compiler
+# compiler to be used
 CC = g++
 
 # compiler flags
 #  -g : adds debugging information to the executable file
-#  -Wall : turn on compiler warnings
+#  -Wall : turns on compiler warnings
 CFLAGS = -Wall -g
 
 # include directory
-INC=-I../inc
+INC = -I../inc
 
 # dependencies
-objects = main.o model.o io.o matrix.o paraview.o utils.o
+OBJ = main.o model.o io.o matrix.o paraview.o utils.o
 
 # make the program
-MPM-Particle-Generator: $(objects)
-	$(CC) $(CFLAGS) $(INC) -o MPM-Particle-Generator $(objects)
+MPM-Particle-Generator: $(OBJ)
+	$(CC) $(CFLAGS) $(INC) -o MPM-Particle-Generator $(OBJ)
 
 # compile dependencies
 main.o : ../src/main.cpp ../inc/io.h ../inc/model.h
@@ -40,4 +40,4 @@ utils.o: ../src/utils.cpp ../inc/matrix.h
 
 # clean
 clean :
-	rm MPM-Particle-Generator $(objects)
+	rm MPM-Particle-Generator $(OBJ)
