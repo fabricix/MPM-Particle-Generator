@@ -1,4 +1,4 @@
-# compiler
+# compiler to be used
 CC = g++
 
 # compiler flags
@@ -12,7 +12,7 @@ CFLAGS = -Wall -g
 # CFLAGS = -Wall
 
 # include directory
-INC=-I../inc
+INC = -I../inc
 
 # dependencies
 objects = main.o\
@@ -23,8 +23,8 @@ objects = main.o\
 	utils.o
 	
 # make the program
-MPM-Particle-Generator: $(objects)
-	$(CC) $(CFLAGS) $(INC) -o MPM-Particle-Generator $(objects)
+MPM-Particle-Generator: $(OBJ)
+	$(CC) $(CFLAGS) $(INC) -o MPM-Particle-Generator $(OBJ)
 
 # compile dependencies
 main.o : ../src/main.cpp ../inc/io.h ../inc/model.h
@@ -45,6 +45,9 @@ paraview.o: ../src/paraview.cpp ../inc/io.h ../inc/model.h
 utils.o: ../src/utils.cpp ../inc/matrix.h
 	$(CC) $(CFLAGS) $(INC) -c ../src/utils.cpp
 
+# this target is not associated with any file
+.PHONY: clean
+
 # clean
 clean :
-	rm MPM-Particle-Generator $(objects)
+	rm MPM-Particle-Generator $(OBJ)
