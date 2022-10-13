@@ -4,14 +4,24 @@ CC = g++
 # compiler flags
 #  -g : adds debugging information to the executable file
 #  -Wall : turn on compiler warnings
+
+# Debug
 CFLAGS = -Wall -g
+
+# Release
+# CFLAGS = -Wall
 
 # include directory
 INC=-I../inc
 
 # dependencies
-objects = main.o model.o io.o matrix.o paraview.o utils.o
-
+objects = main.o\
+	model.o\
+	io.o\
+	matrix.o\
+	paraview.o\
+	utils.o
+	
 # make the program
 MPM-Particle-Generator: $(objects)
 	$(CC) $(CFLAGS) $(INC) -o MPM-Particle-Generator $(objects)
