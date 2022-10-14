@@ -13,13 +13,13 @@ The generator allows to create numerical MPM models based on the contour lines o
 The program can be compiled using GNU make utility. The makefile is inside the `/make` folder. To create the executable file, go to the folder `/make` and run: 
 
 ```bash
-make 
+/make$ make 
 ```
 
 To delete the executable file and all the object files from the directory, type:
 
 ```bash
-make clean 
+/make$ clean 
 ```
 
 # Examples
@@ -31,13 +31,13 @@ There are two examples: A sine wave model and the Daguangbao Landslide model.
 The file input is located in the example folder:
 
 ```bash
-examples/example-1-sinewave/sine-wave.dat
+/examples/example-1-sinewave/sine-wave.dat
 ```
 
 To run this model go to folder and run the generator:
 
 ```bash
-mpm-generator sine-wave.dat
+$ mpm-generator sine-wave.dat
 ```
 
 The mpm model of the Sine wave results in:
@@ -49,13 +49,13 @@ The mpm model of the Sine wave results in:
 The file input is located in the example folder:
 
 ```bash
-examples/example-2-daguangbao/daguangbao.dat
+/examples/example-2-daguangbao/daguangbao.dat
 ```
 
 To run this model go to folder and run the generator:
 
 ```bash
-mpm-generator daguangbao.dat
+$ mpm-generator daguangbao.dat
 ```
 
 The mpm model of the Daguangbao landslide results in:
