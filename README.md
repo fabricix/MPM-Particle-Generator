@@ -37,7 +37,7 @@ The file input is located in the example folder:
 To run this model go to folder and run the generator:
 
 ```bash
-$ mpm-generator sine-wave.dat
+$ MPM-Particle-Generator sine-wave.dat
 ```
 
 The mpm model of the Sine wave results in:
@@ -55,7 +55,7 @@ The file input is located in the example folder:
 To run this model go to folder and run the generator:
 
 ```bash
-$ mpm-generator daguangbao.dat
+$ MPM-Particle-Generator daguangbao.dat
 ```
 
 The mpm model of the Daguangbao landslide results in:
@@ -73,7 +73,7 @@ The file input is located in the example folder:
 To run this model go to folder and run the generator:
 
 ```bash
-$ mpm-generator daguangbao-failure.dat
+$ MPM-Particle-Generator daguangbao-failure.dat
 ```
 
 The mpm model of the Daguangbao landslide results in:
