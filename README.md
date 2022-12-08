@@ -62,6 +62,24 @@ The mpm model of the Daguangbao landslide results in:
 
 ![Alt text](examples/example-2-daguangbao/daguangbao-mpm-model.png?raw=true "Daguangbao mpm model")
 
+##  Daguangbao Landslide including the failure surface
+
+The file input is located in the example folder:
+
+```bash
+/examples/example-3-daguangbao-failure-surface/daguangbao-failure.dat
+```
+
+To run this model go to folder and run the generator:
+
+```bash
+$ mpm-generator daguangbao-failure.dat
+```
+
+The mpm model of the Daguangbao landslide results in:
+
+![Alt text](examples/example-3-daguangbao-failure-surface/daguangbao-failure-surface-model.png?raw=true "Daguangbao mpm model with failure surface")
+
 ## Results visualization
 
 After the generator execute the input file a vtu file is created. This file can be loaded in ParaView in order to verify the model. 
