@@ -72,7 +72,7 @@ namespace Model
 					if (dist<=mindist)
 					{
 						mindist = dist;
-						dem_index = j;
+						dem_index = static_cast<int>(j);
 					}
 				}
 
@@ -106,7 +106,7 @@ namespace Model
 					if (dist<=mindist)
 					{
 						mindist = dist;
-						target_hor_pnt = hor_pnt;
+						target_hor_pnt = static_cast<int> (hor_pnt);
 					}
 				}
 
@@ -132,9 +132,9 @@ namespace Model
 	
 	static int inCell(Vector3 pos)
 	{
-		int i = floor((pos.x-Grid.regionBegin.x)/Grid.dx+Grid.Ng);
-      	int j = floor((pos.y-Grid.regionBegin.y)/Grid.dy+Grid.Ng);
-      	int k = floor((pos.z-Grid.regionBegin.z)/Grid.dz+Grid.Ng);
+		int i = static_cast<int>(floor((pos.x-Grid.regionBegin.x)/Grid.dx+Grid.Ng));
+      	int j = static_cast<int>(floor((pos.y-Grid.regionBegin.y)/Grid.dy+Grid.Ng));
+      	int k = static_cast<int>(floor((pos.z-Grid.regionBegin.z)/Grid.dz+Grid.Ng));
 
       	if(i>=0 && i<Grid.I && j>=0 && j<Grid.J && k>=0 && k<Grid.K)
       	{
@@ -436,7 +436,7 @@ namespace Model
 		{
 			if (cellid.at(i)==true)
 			{
-				int idn1 = i;
+				int idn1 = static_cast<int>(i);
 				int idn2 = idn1+1;
 				int idn3 = idn1+Grid.I;
 				int idn4 = idn3+1;
@@ -677,7 +677,7 @@ namespace Model
 		Grid.dx = celldim.x; //(limmax.x-limmin.x)/double(Ncell.x);
 		Grid.dy = celldim.y; //(limmax.y-limmin.y)/double(Ncell.y);
 		Grid.dz = celldim.z; //(limmax.z-limmin.z)/double(Ncell.z);
-		Grid.Ng = 2.0;
+		Grid.Ng = 2;
 
 		Vector3 Ncell;
 
@@ -685,9 +685,9 @@ namespace Model
 		Ncell.y = (limmax.y-limmin.y)/Grid.dy;
 		Ncell.z = (limmax.z-limmin.z)/Grid.dz;
 
-		Grid.I = (Ncell.x+2*Grid.Ng+1);
-        Grid.J = (Ncell.y+2*Grid.Ng+1);
-        Grid.K = (Ncell.z+2*Grid.Ng+1);
+		Grid.I = static_cast<int> (Ncell.x+2*Grid.Ng+1);
+        Grid.J = static_cast<int> (Ncell.y+2*Grid.Ng+1);
+        Grid.K = static_cast<int> (Ncell.z+2*Grid.Ng+1);
 
         Grid.gnodes.clear();
         Grid.gnodes.resize((Grid.I*Grid.J*Grid.K),Vector3(0.0));

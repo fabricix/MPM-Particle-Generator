@@ -48,6 +48,7 @@ namespace Model
 		int id;
 		Vector3 pos;
 		int bndry;
+		mshPoint() :id(0), pos(0), bndry(0) {}
 	};
 
 	struct mshElement
@@ -56,6 +57,7 @@ namespace Model
 		int bndry;
 		int mat;
 		std::vector<int> points;
+		mshElement(): id(0), bndry(0), mat(0) {}
 	};
 
 	struct mshGrid

@@ -6,7 +6,7 @@ CC = g++
 #  -Wall : turn on compiler warnings
 
 # Debug
-CFLAGS = -Wall -g
+# CFLAGS = -Wall -g
 
 # Release
 # CFLAGS = -Wall
@@ -23,26 +23,26 @@ objects = main.o\
 	utils.o
 	
 # make the program
-MPM-Particle-Generator: $(OBJ)
-	$(CC) $(CFLAGS) $(INC) -o MPM-Particle-Generator $(OBJ)
+MPM-Particle-Generator: $(objects)
+	$(CC) $(CFLAGS) $(INC) -o MPM-Particle-Generator $(objects)
 
 # compile dependencies
-main.o : ../src/main.cpp ../inc/io.h ../inc/model.h
+main.o : ../src/main.cpp
 	$(CC) $(CFLAGS) $(INC) -c ../src/main.cpp
 
-model.o : ../src/model.cpp ../inc/utils.h ../inc/matrix.h
+model.o : ../src/model.cpp
 	$(CC) $(CFLAGS) $(INC) -c ../src/model.cpp
 
-io.o : ../src/io.cpp ../inc/model.h ../inc/paraview.h
+io.o : ../src/io.cpp
 	$(CC) $(CFLAGS) $(INC) -c ../src/io.cpp
 
 matrix.o: ../src/matrix.cpp
 	$(CC) $(CFLAGS) $(INC) -c ../src/matrix.cpp
 
-paraview.o: ../src/paraview.cpp ../inc/io.h ../inc/model.h
+paraview.o: ../src/paraview.cpp
 	$(CC) $(CFLAGS) $(INC) -c ../src/paraview.cpp
 
-utils.o: ../src/utils.cpp ../inc/matrix.h
+utils.o: ../src/utils.cpp
 	$(CC) $(CFLAGS) $(INC) -c ../src/utils.cpp
 
 # this target is not associated with any file
@@ -50,4 +50,4 @@ utils.o: ../src/utils.cpp ../inc/matrix.h
 
 # clean
 clean :
-	rm MPM-Particle-Generator $(OBJ)
+	rm MPM-Particle-Generator $(objects)

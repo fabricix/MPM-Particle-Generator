@@ -121,7 +121,7 @@ namespace ParaView
 		Vector3 origin = Model::MinGridCoordsGet();
 
 		Vector3 nbydir = Model::NnodesbyDirectionGet();
-		int ngpoints = (nbydir.x-1)*(nbydir.y-1)*(nbydir.z-1);
+		int ngpoints = static_cast<int> ((nbydir.x-1)*(nbydir.y-1)*(nbydir.z-1));
 
 		gridfile<<"# vtk DataFile Version 4.0\n";
 		gridfile<<"vtk output\n";
@@ -164,7 +164,7 @@ namespace ParaView
 		partfile <<"<UnstructuredGrid>\n";
 
 		// points
-		int ngpoints = Model::GetParticleVector().size();
+		int ngpoints = static_cast<int> (Model::GetParticleVector().size());
 		partfile <<std::fixed<<"\t<Piece NumberOfPoints=\""<<ngpoints<<"\" NumberOfCells=\""<<ngpoints<<"\">\n";
 		partfile <<"\t\t<Points>\n";
 

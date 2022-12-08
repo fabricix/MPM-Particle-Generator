@@ -1,2 +1,5 @@
 *.o
 MPM-Particle-Generator
+models
+*.vs
+*.exe

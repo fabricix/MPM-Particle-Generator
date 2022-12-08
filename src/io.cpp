@@ -240,7 +240,7 @@ namespace IO {
 		{
 			std::getline(inputfile,line);
 			Model::mshElement iele;
-			int nnodes,n1,n2,n3,n4,bndry,matid(1.0);
+			int nnodes(0), n1(0), n2(0), n3(0), n4(0), bndry(0), matid(0);
 			
 			if (smesh_material_falg)
 				std::sscanf(line.c_str(),"%d %d %d %d %d %d %d",&nnodes,&n1,&n2,&n3,&n4,&bndry,&matid);
@@ -450,7 +450,7 @@ namespace IO {
 		else
 		{
 			// get the number of materials
-			int nmat = Model::GetHorizontVector().size()+2;
+			int nmat = static_cast <int> (Model::GetHorizontVector().size())+2;
 
 			for (int imat = 1; imat < nmat; ++imat)
 			{

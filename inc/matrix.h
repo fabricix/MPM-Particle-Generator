@@ -17,7 +17,7 @@
 
 #include <math.h>
 
-const double pi=M_PI;
+const double pi = 3.14159265359;
 const double MACHINE_TOL=std::numeric_limits<double>::epsilon();
 
 struct Matrix2;
