@@ -3,3 +3,4 @@ MPM-Particle-Generator
 models
 *.vs
 *.exe
+*.sublime-project

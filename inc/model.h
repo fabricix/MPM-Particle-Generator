@@ -82,6 +82,12 @@ namespace Model
 		BoundingBoxDem():min(0.0),max(0){}
 	};
 
+	struct MaterialPolygon
+	{
+		int material_id;
+		std::vector<Vector3> points;
+	};
+
 	std::vector<DemBox>& GetDemVector();
 	std::vector<Particle>& GetParticleVector();
 	std::vector<mshPoint>& GetmshPointsVector();
@@ -99,7 +105,7 @@ namespace Model
 	void CreateMPMmodel();
 	void initGrid(Vector3 limmin,Vector3 limmax, Vector3 celldim);
 	
-	// horizonts	
+	// horizons	
 	void SetHorizonNumber(int nhor);
 	int  GetHorizonNumber( );
 
@@ -109,8 +115,11 @@ namespace Model
 	void setWriteParticlesSeparateFiles(bool value);
 	bool getWriteParticlesSeparateFiles();
 
-	// horizont map set
+	// horizon map set
 	void setHorizontMap(Model::MapHorizont type);
+
+	// redefine materials by polygons
+	void setMaterialPolygon(std::vector<MaterialPolygon> value);
 }
 
 #endif /* INC_MODEL_H_ */

@@ -348,6 +348,58 @@ namespace IO {
 		Model::initGrid(lim_min,lim_max,celldim);
 	}
 
+	static void read_materials_polygons_xy() 
+	{
+		// number of polygons
+		std::getline(inputfile, line);
+		int npoly = 0;
+		std::sscanf(line.c_str(), "%d", &npoly);
+
+		if (npoly<=0)
+		{
+			std::cout << "ERROR: Number of polygons = " << npoly << "\n";
+			return;
+		}
+
+		// read the data
+		std::string file_name;
+		std::vector<std::string> file_name_vector;
+
+		// global data vector
+		std::vector<Model::MaterialPolygon> material_polygon_vector;
+
+		for (size_t i = 0; i < npoly; i++)
+		{
+			// define structure data
+			Model::MaterialPolygon material_polygon;
+
+			// material id 
+			std::getline(inputfile, line);
+			int mat_id = 0;
+			std::sscanf(line.c_str(), "%d", &mat_id);
+			material_polygon.material_id = mat_id;
+
+			// npoints
+			std::getline(inputfile, line);
+			int npoints = 0;
+			std::sscanf(line.c_str(), "%d", &npoints);
+
+			// coordinates
+			for (size_t j = 0; j < npoints; j++)
+			{
+				std::getline(inputfile, line);
+				double x, y;
+				std::sscanf(line.c_str(), "%lf %lf", &x,&y);
+				material_polygon.points.push_back(Vector3(x, y, 0));
+			}
+
+			// set polygon in global vector
+			material_polygon_vector.push_back(material_polygon);
+		}
+
+		// set the global data
+		Model::setMaterialPolygon(material_polygon_vector);
+	}
 
 	//** globals
 
@@ -408,6 +460,13 @@ namespace IO {
 			{
 				std::cout<<"Mapping dem to horizont points\n";
 				Model::setHorizontMap(Model::MapHorizont::DEM_TO_HORIZONT);
+			}
+
+			// read polygons for defining materials in the plane
+			if (line.find("REDEFINE.MATERIAL.BY.POLYGONS.XY") != std::string::npos)
+			{
+				std::cout << "Reading material polygons\n";
+				read_materials_polygons_xy();
 			}
 
 		}

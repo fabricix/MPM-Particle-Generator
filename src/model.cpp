@@ -45,6 +45,11 @@ namespace Model
 	void BoundingBoxDemSet(Vector3 pmin,Vector3 pmax){dembndbox.min=pmin; dembndbox.max=pmax;}
 	void BoundingBoxDemGet(Vector3& lmin,Vector3& lmax){lmin=dembndbox.min; lmax=dembndbox.max; }
 
+	// redefine materials by polygons
+	vector<MaterialPolygon> material_polygon_vector;
+	void setMaterialPolygon(vector<MaterialPolygon> value) { material_polygon_vector = value; }
+	vector<MaterialPolygon> getMaterialPolygon( ) { return material_polygon_vector; }
+
 	bool SEPARATE_FILES = false;
 
 	MapHorizont horizontMap = MapHorizont::HORIZONT_TO_DEM;
@@ -754,10 +759,65 @@ namespace Model
 		return Vector3(minx,miny,minz);
 	}
 
+	int IsPointInPolygon(int nvert, vector<double> vertx, vector<double> verty, double testx, double testy)
+	{
+		// nvert: Number of vertices in the polygon.
+		// vertx, verty: Arrays containing the x- and y-coordinates of the polygon's vertices.
+		// testx, testy: X- and y-coordinate of the test point.
+
+		int i, j, c = 0;
+		for (i = 0, j = nvert - 1; i < nvert; j = i++) {
+			if (((verty[i] > testy) != (verty[j] > testy)) && (testx < (vertx[j] - vertx[i]) * (testy - verty[i]) / (verty[j] - verty[i]) + vertx[i]))
+				c = !c;
+		}
+		return c;
+	}
+
+	void RedefineMaterialsByPolygons() 
+	{
+		using namespace std;
+
+		// read the polygons
+		vector<MaterialPolygon> mat_poly_vec = getMaterialPolygon();
+		
+		// search particles inside of each polygon
+
+		for (size_t i = 0; i < mat_poly_vec.size(); ++i)
+		{
+			// get i polygon
+			vector<Vector3> pnts = mat_poly_vec.at(i).points;
+
+			int mat_id = mat_poly_vec.at(i).material_id;
+
+			vector<double> vertx, verty;
+			for (size_t j = 0; j < pnts.size(); ++j)
+			{
+				vertx.push_back(pnts[j].x);
+				verty.push_back(pnts[j].y);
+			}
+
+			int nverts = (int)pnts.size();
+			for (size_t ip = 0; ip < (size_t) ParticleVector.size(); ++ip)
+			{
+				double test_x = ParticleVector.at(ip).pos.x;
+				double test_y = ParticleVector.at(ip).pos.y;
+
+				int inside = IsPointInPolygon(nverts, vertx, verty, test_x, test_y);
+
+				if (inside != 0)
+				{
+					ParticleVector.at(ip).matid=mat_id;
+				}
+			}
+		}
+		mat_poly_vec.clear();
+	}
+
 	void CreateMPMmodel()
 	{
 		CreateMpmModelByDEM();
 		CreateMpmModelByDEMHorizonts();
 		CreateMpmModelBySMESH();
+		RedefineMaterialsByPolygons();
 	}
 }
